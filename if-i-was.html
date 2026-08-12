@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>If I was — a book of tales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#241826;
+    --night-deep:#180f1e;
+    --parchment:#FBF4F1;
+    --parchment-edge:#F1E0D9;
+    --ink:#3A2430;
+    --ink-soft:#7a5c68;
+    --rose:#9E2B3A;
+    --rose-soft:#C67C86;
+    --leaf:#5E6B4A;
+    --leaf-light:#93A26F;
+    --gilt:#B4894F;
+    --gilt-soft:#d8bf94;
+    --measure:66ch;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(120% 90% at 50% -10%, #3a2436 0%, var(--night) 42%, var(--night-deep) 100%);
+    color:var(--ink);
+    font-family:"EB Garamond", Georgia, serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* ---- twilight thicket climbing the far margins ---- */
+  .thicket{
+    position:fixed;
+    top:0;bottom:0;
+    width:150px;
+    pointer-events:none;
+    z-index:0;
+    opacity:.9;
+  }
+  .thicket.left{left:0;}
+  .thicket.right{right:0; transform:scaleX(-1);}
+  .thicket svg{height:100%; width:100%;}
+  @media (max-width:1180px){ .thicket{ width:96px; opacity:.7; } }
+  @media (max-width:820px){ .thicket{ display:none; } }
+
+  /* ---- the book panel ---- */
+  .book{
+    position:relative;
+    z-index:1;
+    max-width:820px;
+    margin:56px auto 96px;
+    background:
+      linear-gradient(180deg, var(--parchment) 0%, #FAF1EC 100%);
+    border:1px solid var(--parchment-edge);
+    box-shadow:
+      0 2px 0 rgba(180,137,79,.25),
+      0 30px 70px -30px rgba(20,10,20,.85),
+      inset 0 0 90px rgba(198,124,134,.12);
+    border-radius:3px;
+    padding:clamp(30px,6vw,84px) clamp(26px,7vw,92px);
+  }
+  /* faint gilt keyline just inside the page edge */
+  .book::before{
+    content:"";
+    position:absolute; inset:14px;
+    border:1px solid rgba(180,137,79,.35);
+    border-radius:1px;
+    pointer-events:none;
+  }
+  @media (max-width:900px){ .book{ margin:22px 14px 56px; } }
+
+  /* corner rose ornaments on the panel */
+  .corner{ position:absolute; width:104px; height:104px; z-index:2; pointer-events:none; }
+  .corner.tl{ top:-14px; left:-14px; }
+  .corner.tr{ top:-14px; right:-14px; transform:scaleX(-1); }
+  .corner.bl{ bottom:-14px; left:-14px; transform:scaleY(-1); }
+  .corner.br{ bottom:-14px; right:-14px; transform:scale(-1,-1); }
+  @media (max-width:560px){ .corner{ width:66px; height:66px; } }
+
+  /* ---- hero / frontispiece ---- */
+  .frontispiece{ text-align:center; }
+  .crest{ width:78px; height:78px; margin:0 auto 6px; display:block; color:var(--rose); }
+  .kicker{
+    font-family:"EB Garamond", serif;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    font-size:.72rem;
+    color:var(--gilt);
+    margin:10px 0 0;
+  }
+  h1.title{
+    font-family:"Cormorant Garamond", serif;
+    font-weight:500;
+    font-size:clamp(3.4rem,11vw,6.2rem);
+    line-height:.9;
+    margin:.12em 0 .1em;
+    color:var(--ink);
+    letter-spacing:.01em;
+  }
+  h1.title .amp{ font-style:italic; color:var(--rose); }
+  .subtitle{
+    font-style:italic;
+    font-size:clamp(1.1rem,3vw,1.4rem);
+    color:var(--ink-soft);
+    margin:0;
+  }
+  .flourish{ width:min(340px,72%); height:26px; margin:22px auto 6px; display:block; color:var(--rose-soft); }
+  .intro{
+    max-width:54ch; margin:14px auto 0;
+    color:var(--ink-soft); font-size:1.06rem; line-height:1.7;
+  }
+
+  /* ---- table of contents ---- */
+  .toc-head{
+    text-align:center; margin:52px 0 8px;
+  }
+  .toc-head span{
+    font-family:"Cormorant Garamond", serif;
+    font-weight:500; font-size:1.9rem; color:var(--ink);
+    position:relative; padding:0 26px;
+  }
+  .toc-head span::before,.toc-head span::after{
+    content:"❧"; color:var(--gilt); font-size:1rem; position:absolute; top:50%; transform:translateY(-50%);
+  }
+  .toc-head span::before{ left:-6px; }
+  .toc-head span::after{ right:-6px; transform:translateY(-50%) scaleX(-1); }
+
+  .toc{ list-style:none; padding:0; margin:26px 0 0; }
+  .toc li{ margin:0; }
+  .toc button{
+    all:unset; cursor:pointer; display:flex; align-items:baseline; gap:16px;
+    width:100%; padding:15px 6px; border-bottom:1px solid rgba(180,137,79,.22);
+    transition:background .3s ease, padding-left .3s ease;
+  }
+  .toc li:first-child button{ border-top:1px solid rgba(180,137,79,.22); }
+  .toc button:hover,.toc button:focus-visible{
+    background:linear-gradient(90deg, rgba(198,124,134,.16), rgba(198,124,134,0));
+    padding-left:16px;
+  }
+  .toc button:focus-visible{ outline:2px solid var(--rose); outline-offset:3px; }
+  .num{
+    font-family:"Cormorant Garamond", serif; font-style:italic;
+    color:var(--gilt); font-size:1.05rem; min-width:2.6em; text-align:right; flex:0 0 auto;
+    letter-spacing:.04em;
+  }
+  .toc .name{
+    font-family:"Cormorant Garamond", serif; font-size:1.5rem; color:var(--ink); flex:1 1 auto;
+    line-height:1.15;
+  }
+  .toc .name em{ color:var(--rose); font-style:italic; }
+  .toc .when{
+    font-style:italic; color:var(--ink-soft); font-size:.9rem; flex:0 0 auto; white-space:nowrap;
+  }
+  @media (max-width:560px){
+    .toc .when{ display:none; }
+    .toc .name{ font-size:1.28rem; }
+  }
+
+  /* ---- reading view ---- */
+  .reader{ display:none; }
+  .reader.active{ display:block; animation:fade .6s ease; }
+  .index-view.hidden{ display:none; }
+  @keyframes fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
+
+  .backlink{
+    all:unset; cursor:pointer; display:inline-flex; align-items:center; gap:9px;
+    font-style:italic; color:var(--ink-soft); font-size:1rem; margin-bottom:30px;
+    transition:color .25s ease;
+  }
+  .backlink:hover,.backlink:focus-visible{ color:var(--rose); }
+  .backlink:focus-visible{ outline:2px solid var(--rose); outline-offset:4px; border-radius:2px; }
+  .backlink svg{ width:26px; height:12px; color:var(--rose-soft); }
+
+  article header{ text-align:center; margin-bottom:30px; }
+  article .ch-num{
+    font-family:"Cormorant Garamond", serif; font-style:italic; color:var(--gilt);
+    letter-spacing:.3em; text-transform:uppercase; font-size:.8rem;
+  }
+  article h2{
+    font-family:"Cormorant Garamond", serif; font-weight:500;
+    font-size:clamp(2.3rem,6vw,3.4rem); line-height:1.02; margin:.14em 0 .1em; color:var(--ink);
+  }
+  article h2 em{ color:var(--rose); font-style:italic; }
+  article .date{ font-style:italic; color:var(--ink-soft); font-size:.95rem; }
+  article .rule{ width:150px; height:20px; margin:16px auto 30px; display:block; color:var(--rose-soft); }
+
+  .prose{ max-width:var(--measure); margin:0 auto; }
+  .prose p{
+    font-size:1.235rem; line-height:1.78; margin:0 0 1.25em; color:var(--ink);
+    text-align:left;
+  }
+  .prose p:first-of-type::first-letter{
+    font-family:"Cormorant Garamond", serif;
+    font-size:3.4em; line-height:.78; float:left;
+    padding:.06em .10em 0 0; color:var(--rose); font-weight:600;
+  }
+  .prose em{ font-style:italic; }
+  .prose strong{ font-weight:500; color:var(--rose); }
+  .prose .mark{ background:linear-gradient(180deg, transparent 55%, rgba(198,124,134,.4) 55%); padding:0 .05em; }
+  .prose ul,.prose ol{ margin:0 0 1.35em; padding-left:1.4em; }
+  .prose li{ font-size:1.18rem; line-height:1.6; margin:.35em 0; color:var(--ink); }
+  .prose ul{ list-style:none; padding-left:1.5em; }
+  .prose ul li{ position:relative; }
+  .prose ul li::before{ content:"❦"; color:var(--rose-soft); position:absolute; left:-1.5em; font-size:.85em; top:.1em; }
+  .prose .verse{
+    font-style:italic; color:var(--ink-soft); text-align:center;
+    margin:1.6em auto; font-size:1.15rem; line-height:1.5;
+  }
+  .prose .ps{ font-size:1.05rem; color:var(--ink-soft); font-style:italic; }
+
+  /* end ornament + next chapter */
+  .chapter-end{ text-align:center; margin:44px auto 6px; max-width:var(--measure); }
+  .chapter-end .glyph{ color:var(--rose); font-size:1.4rem; letter-spacing:.5em; }
+  .nextline{
+    max-width:var(--measure); margin:26px auto 0; text-align:center;
+    border-top:1px solid rgba(180,137,79,.25); padding-top:22px;
+  }
+  .nextbtn{
+    all:unset; cursor:pointer; font-family:"Cormorant Garamond", serif; font-size:1.35rem;
+    color:var(--ink); font-style:italic;
+  }
+  .nextbtn .lbl{ display:block; font-family:"EB Garamond", serif; font-style:normal; text-transform:uppercase; letter-spacing:.3em; font-size:.68rem; color:var(--gilt); margin-bottom:4px; }
+  .nextbtn:hover .arw,.nextbtn:focus-visible .arw{ color:var(--rose); }
+  .nextbtn:focus-visible{ outline:2px solid var(--rose); outline-offset:4px; border-radius:2px; }
+  .nextbtn .arw{ color:var(--rose-soft); transition:color .25s ease; }
+
+  footer.sitefoot{
+    position:relative; z-index:1; text-align:center; color:var(--gilt-soft);
+    font-style:italic; font-size:.92rem; padding:0 20px 46px;
+  }
+  footer.sitefoot .sep{ color:var(--rose-soft); margin:0 .6em; }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ animation:none !important; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- climbing thicket, left + mirrored right -->
+<div class="thicket left" aria-hidden="true">
+  <svg viewBox="0 0 150 900" preserveAspectRatio="xMinYMid slice" fill="none">
+    <path d="M30 900 C10 780 60 720 40 620 C20 520 70 460 44 360 C22 270 66 210 40 110 C24 50 60 20 52 -20"
+          stroke="#5E6B4A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M30 900 C50 800 6 740 34 650 C58 560 14 500 40 410 C60 330 18 270 44 180 C60 120 30 70 50 0"
+          stroke="#455036" stroke-width="3.5" stroke-linecap="round" opacity=".8"/>
+    <!-- thorns -->
+    <g stroke="#455036" stroke-width="2.4" stroke-linecap="round">
+      <path d="M40 620 l16 -12"/><path d="M44 360 l16 -12"/><path d="M40 110 l16 -12"/>
+      <path d="M34 650 l-14 -10"/><path d="M40 410 l-14 -10"/><path d="M44 180 l-14 -10"/>
+      <path d="M42 500 l16 10"/><path d="M46 250 l16 10"/>
+    </g>
+    <!-- leaves -->
+    <g fill="#6E7A52">
+      <path d="M40 700 c26 -6 40 8 40 8 c0 0 -20 14 -40 4 z"/>
+      <path d="M44 470 c26 -6 40 8 40 8 c0 0 -20 14 -40 4 z"/>
+      <path d="M40 230 c26 -6 40 8 40 8 c0 0 -20 14 -40 4 z"/>
+      <path d="M36 560 c-24 -8 -38 6 -38 6 c0 0 18 16 38 6 z"/>
+      <path d="M42 320 c-24 -8 -38 6 -38 6 c0 0 18 16 38 6 z"/>
+    </g>
+    <!-- roses -->
+    <g>
+      <g transform="translate(58,540)"><circle r="20" fill="#9E2B3A"/><circle r="13" fill="#C24B58"/><circle r="6" fill="#7c1f2c"/><path d="M-20 0 a20 20 0 0 1 40 0" fill="none" stroke="#7c1f2c" stroke-width="1.5" opacity=".6"/></g>
+      <g transform="translate(52,150)"><circle r="17" fill="#B23A47"/><circle r="10" fill="#D06470"/><circle r="4.5" fill="#7c1f2c"/></g>
+      <g transform="translate(60,780)"><circle r="15" fill="#9E2B3A"/><circle r="9" fill="#C24B58"/><circle r="4" fill="#7c1f2c"/></g>
+      <g transform="translate(50,380)"><circle r="12" fill="#C67C86"/><circle r="6" fill="#e0a4ac"/></g>
+    </g>
+  </svg>
+</div>
+<div class="thicket right" aria-hidden="true">
+  <svg viewBox="0 0 150 900" preserveAspectRatio="xMinYMid slice" fill="none">
+    <path d="M30 900 C10 780 60 720 40 620 C20 520 70 460 44 360 C22 270 66 210 40 110 C24 50 60 20 52 -20"
+          stroke="#5E6B4A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M30 900 C50 800 6 740 34 650 C58 560 14 500 40 410 C60 330 18 270 44 180 C60 120 30 70 50 0"
+          stroke="#455036" stroke-width="3.5" stroke-linecap="round" opacity=".8"/>
+    <g stroke="#455036" stroke-width="2.4" stroke-linecap="round">
+      <path d="M40 620 l16 -12"/><path d="M44 360 l16 -12"/><path d="M40 110 l16 -12"/>
+      <path d="M34 650 l-14 -10"/><path d="M40 410 l-14 -10"/><path d="M44 180 l-14 -10"/>
+    </g>
+    <g fill="#6E7A52">
+      <path d="M40 700 c26 -6 40 8 40 8 c0 0 -20 14 -40 4 z"/>
+      <path d="M44 470 c26 -6 40 8 40 8 c0 0 -20 14 -40 4 z"/>
+      <path d="M40 230 c26 -6 40 8 40 8 c0 0 -20 14 -40 4 z"/>
+    </g>
+    <g>
+      <g transform="translate(58,600)"><circle r="19" fill="#9E2B3A"/><circle r="12" fill="#C24B58"/><circle r="5.5" fill="#7c1f2c"/></g>
+      <g transform="translate(52,220)"><circle r="16" fill="#B23A47"/><circle r="9" fill="#D06470"/><circle r="4" fill="#7c1f2c"/></g>
+      <g transform="translate(56,420)"><circle r="13" fill="#C67C86"/><circle r="7" fill="#e0a4ac"/></g>
+    </g>
+  </svg>
+</div>
+
+<main class="book">
+  <div class="corner tl" aria-hidden="true">
+    <svg viewBox="0 0 104 104" fill="none">
+      <path d="M2 60 C2 30 30 2 62 2" stroke="#B4894F" stroke-width="1.5" opacity=".7"/>
+      <path d="M10 78 C6 44 44 6 82 10" stroke="#5E6B4A" stroke-width="3" fill="none"/>
+      <g fill="#6E7A52">
+        <path d="M40 16 c18 -4 28 6 28 6 c0 0 -14 10 -28 3 z"/>
+        <path d="M20 40 c-4 -16 8 -26 8 -26 c0 0 12 12 3 26 z"/>
+      </g>
+      <g transform="translate(20,20)"><circle r="13" fill="#9E2B3A"/><circle r="8" fill="#C24B58"/><circle r="3.5" fill="#7c1f2c"/></g>
+      <g transform="translate(60,40)"><circle r="8" fill="#C67C86"/><circle r="4" fill="#e0a4ac"/></g>
+    </svg>
+  </div>
+  <div class="corner tr" aria-hidden="true">
+    <svg viewBox="0 0 104 104" fill="none">
+      <path d="M10 78 C6 44 44 6 82 10" stroke="#5E6B4A" stroke-width="3" fill="none"/>
+      <g transform="translate(20,20)"><circle r="12" fill="#B23A47"/><circle r="7" fill="#D06470"/><circle r="3" fill="#7c1f2c"/></g>
+      <g fill="#6E7A52"><path d="M40 16 c18 -4 28 6 28 6 c0 0 -14 10 -28 3 z"/></g>
+    </svg>
+  </div>
+  <div class="corner bl" aria-hidden="true">
+    <svg viewBox="0 0 104 104" fill="none">
+      <path d="M10 78 C6 44 44 6 82 10" stroke="#5E6B4A" stroke-width="3" fill="none"/>
+      <g transform="translate(22,22)"><circle r="11" fill="#9E2B3A"/><circle r="6" fill="#C24B58"/></g>
+    </svg>
+  </div>
+  <div class="corner br" aria-hidden="true">
+    <svg viewBox="0 0 104 104" fill="none">
+      <path d="M10 78 C6 44 44 6 82 10" stroke="#5E6B4A" stroke-width="3" fill="none"/>
+      <g transform="translate(22,22)"><circle r="12" fill="#B23A47"/><circle r="7" fill="#D06470"/><circle r="3" fill="#7c1f2c"/></g>
+    </svg>
+  </div>
+
+  <!-- ============ INDEX ============ -->
+  <div class="index-view" id="indexView">
+    <div class="frontispiece">
+      <svg class="crest" viewBox="0 0 60 60" fill="none" aria-hidden="true">
+        <g transform="translate(30,30)"><circle r="16" fill="#9E2B3A"/><circle r="10" fill="#C24B58"/><circle r="4.5" fill="#7c1f2c"/>
+          <path d="M-16 0 a16 16 0 0 1 32 0" fill="none" stroke="#e0a4ac" stroke-width="1.4" opacity=".7"/></g>
+        <g fill="#6E7A52"><path d="M-2 16 c-16 4 -22 18 -22 18 c0 0 16 2 24 -12 z"/><path d="M2 16 c16 4 22 18 22 18 c0 0 -16 2 -24 -12 z"/></g>
+      </svg>
+      <p class="kicker">A book of tales</p>
+      <h1 class="title">If&nbsp;i&nbsp;<span class="amp">was</span></h1>
+      <p class="subtitle">Existential-crisis journalling</p>
+      <svg class="flourish" viewBox="0 0 340 26" fill="none" aria-hidden="true">
+        <path d="M4 13 H150" stroke="#C67C86" stroke-width="1.4"/>
+        <path d="M336 13 H190" stroke="#C67C86" stroke-width="1.4"/>
+        <g transform="translate(170,13)"><circle r="7" fill="#9E2B3A"/><circle r="3.5" fill="#C24B58"/></g>
+        <path d="M150 13 c-6 -8 -18 -8 -18 -8 c0 0 4 12 18 8z" fill="#6E7A52"/>
+        <path d="M190 13 c6 -8 18 -8 18 -8 c0 0 -4 12 -18 8z" fill="#6E7A52"/>
+      </svg>
+      <p class="intro">A girl set out to learn who she might be if she weren&rsquo;t defined by her sadness &mdash; asking, one chapter at a time, <em>&ldquo;if i was a&hellip;&rdquo;</em> Turn the pages in order, and the tale finds its own ending.</p>
+    </div>
+
+    <div class="toc-head"><span>The Chapters</span></div>
+    <ul class="toc" id="toc"><!-- filled by JS --></ul>
+  </div>
+
+  <!-- ============ READER ============ -->
+  <div class="reader" id="reader">
+    <button class="backlink" id="back">
+      <svg viewBox="0 0 26 12" fill="none" aria-hidden="true"><path d="M25 6 H3 M9 1 L2 6 L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Return to the garden of chapters
+    </button>
+    <div id="article"><!-- filled by JS --></div>
+    <div class="nextline" id="nextline"></div>
+  </div>
+</main>
+
+<footer class="sitefoot">
+  <span>If i was</span><span class="sep">❧</span><span>thirteen little tales, told to oneself</span>
+</footer>
+
+<!-- ================= CONTENT DATA ================= -->
+<script id="chapters" type="application/json">
+[]
+</script>
+
+<script>
+/* Content is injected below as a JS array so the em/strong markup survives intact. */
+const CHAPTERS = [
+{
+ roman:"I", name:"If i was a <em>colour</em>", date:"May 1, 2025",
+ html:`
+  <p>I started this website because someone told me I should write literature notes right after I vented about having an existential crisis.</p>
+  <p>Being friends with a therapist is <em>not</em> fun.</p>
+  <p>I used to think it would be. How simple it must be to have a friend who has life somewhat figured out&mdash;or worse, has <em>you</em> figured out.</p>
+  <p><strong>Spoiler alert:</strong> it&rsquo;s still not fun.</p>
+  <p>Now, this journal isn&rsquo;t <em>about</em> my friend who thinks he&rsquo;s always right. But I have to admit, he&rsquo;s the one who pushed me into creating this space. And today, I spent hours overthinking the purpose of this blog. Even though no one&rsquo;s really going to read it&mdash;except for a few friends I trust enough to share it with, I still felt the need to dissect the <em>why</em>.</p>
+  <p><em>&ldquo;Why do I do this to myself?&rdquo;</em></p>
+  <p>Well, I like to complicate life. I like to analyze it to exhaustion. Think it through, over and over, until I find a solution. A fix for a problem I probably created in the first place. Make sense?</p>
+  <p>I&rsquo;m 24, and I&rsquo;m in the middle of one of the biggest existential crises I&rsquo;ve ever had. I keep asking myself: <strong>&ldquo;<span class="mark">Who am I?</span>&rdquo;</strong></p>
+  <p>Sadness has always been a big part of my identity. Of course, when I say that out loud, people rush to tell me I&rsquo;m <em>so much more</em> than my sadness.</p>
+  <p>But am I?</p>
+  <p>What if sadness <em>is</em> me? What if I can&rsquo;t survive life without it? What if some people need happiness to feel alive and I need sadness to survive?</p>
+  <p>When you open up about these kinds of thoughts, people assume you don&rsquo;t love yourself. They assume that sadness is tearing you down. But the truth is: I seek it. I find it in quiet corners. It finds <em>me</em>, even when I don&rsquo;t want it to. And I&rsquo;ve tried&mdash;really tried&mdash;to embrace it.</p>
+  <p>So today I asked myself, if I <em>am</em> more than my sadness, then <strong>who the hell am I?</strong></p>
+  <p>I don&rsquo;t know. I wish I had a clever, poetic answer. But I don&rsquo;t. (Neither the same people who told me i am not my sadness.)</p>
+  <p>So&hellip; I made this blog.</p>
+  <p>You might&rsquo;ve noticed the title: <em>&ldquo;If I Was.&rdquo;</em> The idea is simple. It&rsquo;s a weird little journey to figure out who I might be if I weren&rsquo;t defined by sadness. Maybe by the 100th post, I&rsquo;ll finally stop changing my mind. Or maybe I&rsquo;ll finally understand what everyone else keeps seeing in me. The potential <em>I</em> still don&rsquo;t see. Because maybe, just maybe, sadness isn&rsquo;t as negative as people make it out to be.</p>
+  <p>So let&rsquo;s start with this:</p>
+  <p><strong>If I was a colour, what would I be?</strong></p>
+  <p>I know it sounds basic&mdash;there aren&rsquo;t <em>that</em> many colours, after all&mdash;but I&rsquo;d be <strong>neon dark indigo</strong>.</p>
+  <p>Not because it&rsquo;s my aura, not because it symbolizes sadness, and not because it matches my colour palette. But because&hellip; it&rsquo;s <em>there</em>. No one picks indigo. It&rsquo;s quiet and calm, yet vibrant. It feels like night&mdash;the best part of the day. It&rsquo;s the colour of a girl sitting in front of her laptop, under LED lights, writing about how weird and disconnected she feels. It&rsquo;s the dominant hue in my Instagram feed (at least, I hope so). It&rsquo;s in my songs, my poems.</p>
+  <p><em>Have I mentioned It&rsquo;s not even my favourite colour?</em></p>
+  <p>But here&rsquo;s the thing: people love to challenge me on how I see myself. Like I don&rsquo;t understand <em>me</em>. Like I&rsquo;ve misread my own story. So let&rsquo;s play their game. What&rsquo;s the opposite of dark indigo in the colour wheel?</p>
+  <p><strong>Orange.</strong></p>
+  <p>Everyone who knows me knows I hate orange. It&rsquo;s my least favourite colour. In fact, it kind of depresses me. I don&rsquo;t even like oranges that much as a fruit. And let&rsquo;s not even talk about orange cats&mdash;cute, yes, but often labeled as dumb.</p>
+  <p>But hey, we&rsquo;re here to explore, right?</p>
+  <p><strong>If I was the colour orange&hellip; I&rsquo;d be a pumpkin pie.</strong><br>Wait&mdash;I&rsquo;ve never even tried a pumpkin pie??</p>
+  <p>Let me try again.</p>
+  <p><strong>If I was the colour orange&hellip; I&rsquo;d be a carrot.</strong><br>Umm&mdash;I&rsquo;m not really trying to be eaten by rabbits right now.</p>
+  <p>Maybe this time I&rsquo;ll figure it out</p>
+  <p><strong>If I was orange, I&rsquo;d be a sunset.</strong></p>
+  <p>Sunsets are soft and beautiful. Everyone loves a sunset. They&rsquo;re the golden hour, the quiet signal that night is near.</p>
+  <p>Maybe&hellip; maybe I hate orange a little less now.<br>Or maybe I&rsquo;m just saying that to make you feel better.</p>
+  <p class="ps"><strong>P.S.</strong> There&rsquo;s something called indigo powder&mdash;popular in Morocco&mdash;that&rsquo;s used to brighten skin. It even reduces redness. You&rsquo;d think such a rich, dark colour would leave a stain. But it doesn&rsquo;t. It <em>lightens</em>.</p>
+  <p class="ps">So maybe not everything dark leaves you in the shadows. Maybe&hellip; just maybe&hellip; my darkness stains the world a little brighter.</p>
+ `
+},
+{
+ roman:"II", name:"If i was a <em>person</em>", date:"May 2, 2025",
+ html:`
+  <p>Nice people are scammers.</p>
+  <p>I know, not exactly the warm intro you were expecting&mdash;but hear me out. Every time I meet someone who&rsquo;s <em>too</em> nice, I immediately get scared. Not because kindness is threatening, but because <em>have you ever seen a nice person get angry?</em> I hope not. Because when it happens, it&rsquo;s <em>ugly</em>. Their mask falls off and what comes out is pure ego. It&rsquo;s not just anger&mdash;it&rsquo;s entitlement.</p>
+  <p>That&rsquo;s when it hits me: it <em>was</em> an act all along.</p>
+  <p>These days, whenever I come across a person who seems &ldquo;extra nice,&rdquo; I feel the urge to keep my distance. And even if I don&rsquo;t know <em>why</em> in the moment, I usually figure it out later.</p>
+  <p>Honestly, I don&rsquo;t get the universal hate for so-called &ldquo;mean&rdquo; people. Everyone has a bit of mean in them&mdash;at least the blunt ones aren&rsquo;t pretending. There&rsquo;s no performance, no moral superiority complex wrapped in pretty words.</p>
+  <p>I&rsquo;ve always crushed on the antagonist in movies. Why are they so hated? Most of them are just hurt, guarded, layered people. But somehow, it&rsquo;s always the naive, sunshine-filled protagonist that gets the happy ending. They act so pure and good it borders on manipulation&mdash;and yes, maybe I&rsquo;m projecting, but I&rsquo;ve been hurt more by &ldquo;nice&rdquo; people than anyone else.</p>
+  <p>The only people who left me were the ones who constantly talked about doing good in the world.</p>
+  <p>Nice people are like spring. Sounds poetic, right? I&rsquo;m sure they&rsquo;d <em>love</em> that comparison. But here&rsquo;s the thing: while spring makes everything bloom and the weather gets warmer, life itself doesn&rsquo;t <em>actually</em> change. It&rsquo;s still hard, still messy. Spring just <em>looks</em> better on the surface.</p>
+  <p>That&rsquo;s how &ldquo;nice&rdquo; people operate&mdash;polished on the outside.</p>
+  <p>So yeah, this is a hate rant. A full-on rant against &ldquo;nice&rdquo; people. Because I&rsquo;m tired of being conned by those who parade their goodness while secretly acting in their own best interest. Even their kindness is selfish. They do good because they feel a certain responsibility towards the idea but not because they actually believe in it.</p>
+  <p>And an actually kind person? They wouldn&rsquo;t be telling you about it every chance they get.</p>
+  <p><strong>If I Was a Person, What Would I Be?</strong></p>
+  <p>This one&rsquo;s broad, I know. But let&rsquo;s be clear: I wouldn&rsquo;t want to be a &ldquo;nice&rdquo; person&mdash;not even the genuinely kind ones. Because life chews them up. People exploit them. And they&rsquo;re left wondering why being &ldquo;good&rdquo; doesn&rsquo;t feel rewarding.</p>
+  <p>So if I was a person&hellip; I wouldn&rsquo;t be one.</p>
+  <p>I think we lost the cosmic lottery when we ended up as human beings. Being human is overrated. I&rsquo;d rather be a plant. Or better&mdash;a <em>character</em>. A fake one. Someone on a screen who gets to represent something.</p>
+  <p>Because let&rsquo;s be real: people care more about fictional characters than real people. They&rsquo;ll cry over a storyline, rage over a plot twist, and even hate a real actor just for playing a villain <em>too well</em>. That&rsquo;s how deeply people invest in things that don&rsquo;t &ldquo;exist.&rdquo;</p>
+  <p>So yeah&mdash;if I was a person, I&rsquo;d be an <strong>anime character</strong>.</p>
+  <p><em>Wait&mdash;don&rsquo;t you not even watch anime?</em></p>
+  <p>True. But that&rsquo;s not the point.</p>
+  <p>I&rsquo;d be a character with a full arc, someone people judge only after watching the entire story unfold&mdash;not based on one out-of-context moment. Not because they misunderstood my vibe. Not because of envy. But because they saw <em>everything</em>&mdash;every reason I became the way I am.</p>
+  <p>And maybe then, someone would finally understand me.</p>
+  <p><strong>But Let Me Try Something&hellip;</strong></p>
+  <p>Let me put myself in the shoes of nice people&mdash;just for fun.</p>
+  <p>If I <em>had</em> to be a nice person, I&rsquo;d be an honest one.</p>
+  <p>I&rsquo;d call people out on their bullshit, even if it doesn&rsquo;t sound sweet. Because sometimes helping someone means bruising their ego a little. It means handing them a mirror when they&rsquo;re busy hiding behind a mask. Like when you find out your friend&rsquo;s boyfriend is cheating on her, you tell her. There&rsquo;s no other choices. That&rsquo;s care. That&rsquo;s what <em>real</em> nice looks like.</p>
+  <p>If I were a nice person, I wouldn&rsquo;t fake it with people I dislike. And neither should you. We forget that being &ldquo;nice&rdquo; doesn&rsquo;t mean being respectful all the time&mdash;and it definitely doesn&rsquo;t mean sacrificing your own truth to make others comfortable.</p>
+  <p>There&rsquo;s power in setting boundaries. There&rsquo;s kindness in being direct. In my opinion, you&rsquo;re being far more &ldquo;nice&rdquo; when you tell someone the full, unfiltered truth than when you soften it into something meaningless.</p>
+  <p>Sometimes, the antagonist is actually more admirable than the overly polished protagonist. At least they don&rsquo;t lie about who they are. They don&rsquo;t wrap their motives in ribbons and sell them as purity. They&rsquo;re loud, clear, and unapologetically themselves.</p>
+  <p>So if you ever want to be a nice person&mdash;be an <em>authentically honest</em> one.</p>
+  <p>The world doesn&rsquo;t need more fake people.</p>
+ `
+},
+{
+ roman:"III", name:"If i was a <em>paper</em>", date:"May 3, 2025",
+ html:`
+  <p>Papers are just like people. They hold a story.</p>
+  <p>It&rsquo;s crazy&mdash;yet not so crazy&mdash;to me that paper comes from wood. I mean, wood is solid, strong, unmoving. And yet, the final product is soft, bendable, fragile even. Sometimes I wonder how humans managed to create things we now consider normal. How did they see something that didn&rsquo;t exist and bring it into everyday life?</p>
+  <p>An apple fell from a tree and Newton discovered gravity. From the same tree, we eventually thought of paper. Well&mdash;I didn&rsquo;t, but I&rsquo;d like to be included in the credit.</p>
+  <p>They didn&rsquo;t just carve into wood and call it a day. They dissected it. Chopped it. Mushed it. Then they washed the pulp, mixed it with water, poured it out, and pressed it so the water could evaporate. What remained was what we now call paper.</p>
+  <p>And ever since, we&rsquo;ve been using it <em>every. single. day.</em></p>
+  <p>I have <em>so</em> many thoughts. Journaling hasn&rsquo;t been enough. Poetry hasn&rsquo;t fulfilled the emotional turbulence. Venting to many, many, many people hasn&rsquo;t cut through it either. So now, I blog.</p>
+  <p><em>Maybe you should&rsquo;ve went for a walk like your mother told you to.</em></p>
+  <p>Imagine having to carve a mountain or draw with stones just to complain about your life. That would&rsquo;ve taken forever. Honestly, what even was the equivalent of journaling back then?</p>
+  <p>Nowadays, paper isn&rsquo;t just made from wood. It&rsquo;s created from various sources. Different production systems lead to different kinds of paper. Just like people&mdash;different environments lead to different personalities.</p>
+  <p>I used to keep my thoughts to myself. Or maybe I shared them with one or two people. Back then, I was more of a <strong>papermaker.</strong></p>
+  <p>You can&rsquo;t expect people to open up by carving into their surface. No, you&rsquo;ve got to take your time. Dissect the layers. Break things down gently. Mush through the messy parts. And listen. Just like pulp mixed with water, their feelings will begin to stir, swirl, and take shape&mdash;if you&rsquo;re patient enough to notice.</p>
+  <p>But now I wonder:<br><strong>If I were a paper, what would I be?</strong></p>
+  <p>I&rsquo;d be sandpaper.</p>
+  <p>At first, I might come across as abrasive&mdash;maybe even confrontational&mdash;but only because I believe in the kind of friction that shapes and strengthens.</p>
+  <p>I&rsquo;m not afraid of tension. I speak up. I debate. Because I believe real connection is forged through honesty. You know that saying, <em>&ldquo;If you really want to know someone, see them at their worst&rdquo;?</em> Well, it&rsquo;s true. And guess what? Most people&rsquo;s worst shows up when they&rsquo;re angry&mdash;when their unfiltered thoughts slip out. The stuff they&rsquo;re too scared to admit.</p>
+  <p>I&rsquo;d rather we get a bit uncomfortable because of my rough edges than one of us hiding behind silent resentment.</p>
+  <p>But <em>don&rsquo;t</em> forget&mdash;sandpaper comes in different grits.</p>
+  <p>I can adapt. Sometimes coarse to cut through the noise, sometimes fine enough to polish gently. I&rsquo;m not here to destroy, I&rsquo;m here to <em>reveal</em>. To smooth out what&rsquo;s rough&mdash;not by avoiding the tough parts, but by working through the messy stuff.</p>
+  <p><em><strong>Now if i wasn&rsquo;t a sandpaper what would i be?</strong></em></p>
+  <p>A wax paper.</p>
+  <p>At first, wax paper can be smooth, soft, transparent. But don&rsquo;t let that fool you. Wax paper has a subtle strength to it. It can be used to preserve things, to protect them, to bake good brownies (I wish someone would bake me fudgy brownies right now).</p>
+  <p>I used to use wax paper to copy a drawing back when i was too lazy to draw the perspectives myself. You&rsquo;d trace over a sketch on a piece of paper glued to a window, then place the wax paper over it and copy. It wasn&rsquo;t perfect, but it got the job done.</p>
+  <p>Just like paper, we&rsquo;re all molded, shaped, and pressed into something that we show the world. We&rsquo;re not defined by one layer or one moment. There&rsquo;s always more beneath the surface&mdash;more to discover, more to create, more to peel away.</p>
+  <p>And who knows? Maybe one day, the pages of my life will be filled with something that makes sense. Until then, I&rsquo;ll keep writing, keep shaping, and keep being the paper I need to be.</p>
+ `
+},
+{
+ roman:"IV", name:"If i was a <em>flower</em>", date:"May 4, 2025",
+ html:`
+  <p>Flowers have always held a special place in my heart. There&rsquo;s something inherently beautiful about them, isn&rsquo;t there? Even when you search for &ldquo;ugly flowers&rdquo; online, they&rsquo;re undeniably intriguing.</p>
+  <p>Over the years, I&rsquo;ve had a personal connection with different flowers. It&rsquo;s as though I&rsquo;ve associated myself with them during various phases of my life, and each one represents a unique chapter.</p>
+  <p>I remember when i was 11, i wrote my first poem. It was a homework in French. We learned the basics of poetry and we were asked to write a short poem about anything. It just had to rhyme and sound good. I remember i wrote about orchids.</p>
+  <p>I found orchids to be distinct. They seemed luxurious and elegant. My aunt had a collection of white and pink orchids on her balcony, and I was fascinated by them. She&rsquo;d received them as a gift and mentioned how expensive they were. When I looked at them, I could see why&mdash;they looked delicate yet precious. Their tall stems had more branches than flowers, so each bloom seemed to stand out more. I thought they were beautiful, and for a while, orchids were my favourite flower.</p>
+  <p><em>But, as with most things, I eventually moved on.</em></p>
+  <p>My next obsession was roses. For years, I adored them, particularly their gothic, romantic vibe. Roses are simple, yet they hold so much meaning. Everyone gifts them, but there&rsquo;s something undeniably special about them. My dad used to buy roses in the spring to make organic rose water. It was a tradition, and I remember the ritual of laying the roses on the living room floor. The scent would linger at night and I&rsquo;d sleep on the couch just to be surrounded by it.</p>
+  <p>Roses were my thing. Perhaps, looking back, I should have noticed how much my romantic side had blossomed. Each rose colour represented something different, and I was drawn to the red ones the most, the ones that give passion, intensity, and depth. Even though roses are often seen as the most basic of flowers, they felt special to me because, during that phase of my life, I had a tendency to seek out things that were unique.</p>
+  <p><em>I&rsquo;m now past that phase.</em></p>
+  <p>Then i had a phase with cherry blossoms. I loved pink trees. It represented a new beginning to me, a softer one. I still wish we could live in a world where trees were pink all year round.</p>
+  <p><em>That phase was very short though.</em></p>
+  <p>Some people have associated me with lavender. When I moved to France, I used to buy lavender soap, lavender candles, lavender everything. People told me lavender was calming, and I thought it was funny&mdash;because I didn&rsquo;t exactly see myself as calm. But, I suppose there was something about its scent that drew me in, maybe its gentle reminder to take things slow.</p>
+  <p>And now, lilies have taken over as my favourite flower. It&rsquo;s a new phase in my life, and lilies seem to speak to where I am right now. There&rsquo;s something so striking about them&mdash;their edges aren&rsquo;t perfectly straight, and yet they look whole, beautiful. They often come in two colours and perhaps I&rsquo;ve grown to appreciate my own imperfections (and my <em>many</em> personalities).</p>
+  <p>Lilies also represent rebirth, and I can&rsquo;t help but feel that resonates with my current state. The filaments of lilies stretch out like welcoming hands, and I, too, feel open and ready to welcome new experiences and new people into my life.</p>
+  <p><em>Still</em>, If i was a flower, i <strong>wouldn&rsquo;t</strong> be a lily.</p>
+  <p><em>(It probably will also be just a phase).</em></p>
+  <p><strong>So what would I be if i was a flower?</strong></p>
+  <p>I&rsquo;ve missed a part where i mentioned a special flower that sparked my interest a few years ago. It wasn&rsquo;t necessarily because i found them pretty but i liked their story.</p>
+  <p>I wanted to figure out which one I <em>was</em>. I wanted to find a flower that really <em>got</em> me. I did a deep dive&mdash;research, symbolism, legends, everything. I gave every flower a fair shot. (Yes, even daisies. No hard feelings.)</p>
+  <p>One flower stood out&mdash;not because it was the prettiest or the rarest, but because of the story behind it.</p>
+  <p><strong>Forget-me-nots.</strong></p>
+  <p>They&rsquo;re simple, small flowering plants with soft blue petals and tiny yellow centers. They bloom in clusters, quietly doing their thing without needing anyone&rsquo;s attention. However, you can&rsquo;t miss them even if you&rsquo;re not looking closely.</p>
+  <p>Apparently, their name stems from a medieval legend in which a knight, picking flowers for his beloved by a river, was swept away by the current but cried out, &ldquo;Forget me not&rdquo; as he threw the bouquet to her. And as the currents of my life sweep me along, i wish for my dear ones to not forget me.</p>
+  <p>These flowers represent both love and death (Two of my favourite subjects, <em>i know</em>).</p>
+  <p><em>Hey at least i didn&rsquo;t say i was poison ivy.</em></p>
+  <p>In foliography, especially during the Victorian era, forget-me-nots symbolized <em>true love</em> and <em>remembrance</em>. They were often exchanged between lovers or worn to remember someone far away or deceased.</p>
+  <p>Hazel (from the Fault of our stars) once said &ldquo;There will come a time when all of us are dead. All of us. There will come a time when there are no human beings remaining to remember that anyone ever existed or that our species ever did anything. There will be no one left to remember Aristotle or Cleopatra, let alone you. Everything that we did and built and wrote and thought and discovered will be forgotten and all of this&hellip; will have been for naught.&rdquo;</p>
+  <p>My only fear? It&rsquo;s not being forgotten after I&rsquo;m gone. If anything, i would want to be erased from everyone&rsquo;s memory when i die.<br>My fear is being picked too soon&mdash;plucked from my roots before I ever get the chance to fully bloom. To be placed in someone else&rsquo;s vase, admired for a moment, then left to wither. To be forgotten while i am still alive.</p>
+  <p><strong>But if i wasn&rsquo;t a forget-me-not what would I be?</strong></p>
+  <p>A sunflower.</p>
+  <p>A sunflower is a literal symbol of joy, happiness, optimism.</p>
+  <p>Things that I find hard to associate myself with.</p>
+  <p>They also represent loyalty and adoration. Things i look forward in a person. So while I don&rsquo;t think I&rsquo;m a sunflower, I&rsquo;d like to be surrounded by sunflowers. People who bring warmth into a room. People who stay. People who care.</p>
+  <p>In the end, the best bouquets are the ones that contain many types of flowers. Flowers aren&rsquo;t just plants to decorate your backyard with or gifts to give to friends or lovers. They represent the cycle of life itself. The seeds must grow, struggle, and stretch toward the light to become what they are meant to be. And then, once they bloom, their time is done. But fear it not&mdash;it&rsquo;s temporary. They&rsquo;ll bloom again, year after year, as part of an eternal cycle.</p>
+ `
+},
+{
+ roman:"V", name:"If i was a <em>thought</em>", date:"May 9, 2025",
+ html:`
+  <p>The art of letting go</p>
+  <p>A concept I struggle to comprehend and apprehend in my daily life.</p>
+  <p>I don&rsquo;t know how to let go&mdash;unless it&rsquo;s crucial. Unless it&rsquo;s so obviously bad that staying would be self-destructive. Then, trust me, I&rsquo;m the first to leave. No one should stay in something that makes them feel worse.</p>
+  <p>But what about the in-between?<br>The relationships that make you feel both good and bad?</p>
+  <p>Those are the ones I seem to always find myself in. One day it feels like growth, like something meaningful. The next, it&rsquo;s pulling me down, making me question everything. So what is that? Are they keeping me stuck in a loop of who I am, or are they just as bad as the ones I know to leave?</p>
+  <p><em>People are like a drug.</em></p>
+  <p>You get addicted. Even if it&rsquo;s not good for you.<br>Worse, it&rsquo;s a <strong>free</strong> drug. You can find it everywhere, at any time.</p>
+  <p>So where&rsquo;s the rehab for relationships?</p>
+  <p>(And yeah&mdash;I get it. If it keeps happening, it&rsquo;s a pattern. And patterns aren&rsquo;t accidents. I must be putting myself in situations I should know how to avoid by now.)</p>
+  <p>But that&rsquo;s not the subject here.</p>
+  <p><strong>The art of letting go.</strong></p>
+  <p>How do I let go when I was raised to stay? To be loyal to the people who love me. To cherish them, to stand by them in sickness and in need. It makes sense&mdash;<strong>in theory.</strong></p>
+  <p>They say blood ties hold strong because of that invisible connection. And I believe that. But I also seem to apply that same loyalty to everyone I love&mdash;blood-related or not. Why draw a line?</p>
+  <p>If I can be committed to a family member, I can be just as committed to a friend.</p>
+  <p>But if there&rsquo;s no blood, will they do the same for me?</p>
+  <p>Probably not.</p>
+  <p>So I tell myself: <em>you&rsquo;re allowed to go.</em> You don&rsquo;t have to stay. You have the right to choose yourself. You can do it <strong>first</strong>.<br>But what if leaving feels worse than staying? What if it goes against everything I believe in?</p>
+  <p>I was taught the Ten Commandments went like this:</p>
+  <ol>
+   <li>You shall have no other gods before Me. &mdash; I believe in God, but have I always lived like I do? Not really.</li>
+   <li>You shall not make for yourself an idol. &mdash; I don&rsquo;t get this one. Aren&rsquo;t churches full of statues and paintings?</li>
+   <li>You shall not take the name of the Lord your God in vain. &mdash; I might have said &ldquo;Oh God&rdquo; too many times in my life. (<em>That&rsquo;s what she said</em>).</li>
+   <li>Remember the Sabbath day, to keep it holy. &mdash; Haven&rsquo;t done that in a while. Random prayers at night don&rsquo;t count, right?</li>
+   <li>Honor your father and your mother. &mdash; I try. But I know I could do better.</li>
+   <li>You shall not murder. &mdash; Let&rsquo;s just say I may have murdered some hearts back in my time.</li>
+   <li>You shall not commit adultery. &mdash; I have more than one best friend&hellip; is that cheating?</li>
+   <li>You shall not steal. &mdash; Stealing isn&rsquo;t always physical. I know that.</li>
+   <li>You shall not bear false witness. &mdash; Who hasn&rsquo;t lied at least once?</li>
+   <li>You shall not covet. &mdash; I envy people with peace of mind. They&rsquo;re not writing this on a random Friday afternoon.</li>
+  </ol>
+  <p>So yeah. If life was a test, I&rsquo;d score a solid 10 out of 10&hellip; in the wrong direction.</p>
+  <p>When I joke about going to hell, it&rsquo;s not <em>really</em> a joke.<br>If I had one last chance at heaven and the only condition was to let go of the people I love&mdash;I&rsquo;d still fail.</p>
+  <p>Because I just can&rsquo;t.</p>
+  <p>How do you betray the people who&rsquo;ve stayed?<br>Even if they might leave one day&mdash;what does that make me if I leave first?</p>
+  <p>Maybe I should just accept that I&rsquo;m loyal. Or maybe I&rsquo;m self-sabotaging.<br>Either way, I lose.</p>
+  <p>If my parents saw what I&rsquo;m writing now&mdash;after sending me religious content every morning this week&mdash;I wouldn&rsquo;t hear the end of it.<br>Thank God they don&rsquo;t speak English.</p>
+  <p>(No&mdash;take that back.)</p>
+  <p>I&rsquo;m thankful they don&rsquo;t speak English.</p>
+  <p>(That&rsquo;s better, maybe now i have a chance to heaven)</p>
+  <p>Anyway, I&rsquo;m supposed to be scared of dying. But if I&rsquo;m so sure I&rsquo;m going to hell, why am I not afraid?</p>
+  <p>Maybe I&rsquo;ll panic five seconds before death.<br>Or maybe&mdash;for once&mdash;I&rsquo;ll be looking forward to something.</p>
+  <p><strong>Where am I going with this?</strong></p>
+  <p>I honestly don&rsquo;t know. I&rsquo;ve had the same album on repeat since the morning, blasting in my ears, just writing whatever spills out of my head, and there have been lots of thoughts. I could spend my day talking about it, alone.</p>
+  <p>I don&rsquo;t feel like sharing my authentic thoughts with people anymore. At least not today. At least not for some time.</p>
+  <p>I&rsquo;ve preached about honesty for some time now and it never ends well when you&rsquo;re too honest.</p>
+  <p>So If I were a thought, I&rsquo;d be a curated one, or a dissected one, just like today. You get a peak, but the door of wandering thoughts is closed. You think you get a lot, but it&rsquo;s a fraction of what actually goes through this tiny big head of mine.</p>
+  <p>(Not that anyone should care, my thoughts wouldn&rsquo;t cure cancer).</p>
+ `
+},
+{
+ roman:"VI", name:"If i was a <em>math equation</em>", date:"May 13, 2025",
+ html:`
+  <p>I wish I lived in a romcom.</p>
+  <p>I&rsquo;ve been scrolling through my feed for what feels like forever, and apparently, the algorithm hasn&rsquo;t gotten the memo about my last heartbreak. I&rsquo;m still getting romantic reels.</p>
+  <p>Do I watch them? Of course.<br>Do I want to watch them? Well&hellip; that depends.</p>
+  <p>It depends on how I&rsquo;m feeling that day.</p>
+  <p>Am I hopeful about finding someone I can share those soft, heartwarming moments with? Or am I spiraling into the &ldquo;I&rsquo;m-going-to-stay-single-forever&rdquo; intrusive thoughts phase?</p>
+  <p>Why did I have to be the hyper-independent, avoidant girlfriend back then&hellip; only to become quite the opposite now?</p>
+  <p>It&rsquo;s probably karma.</p>
+  <p>Back then, all I wanted was close friendships. I didn&rsquo;t care about love. I didn&rsquo;t even believe in it. It was easier that way. Safer.</p>
+  <p>But now?</p>
+  <p>Now, I ache for it.<br>Now, I scroll and long.<br>Now, I put myself in these &ldquo;maybe this time&rdquo; situations and keep wondering if I should just stop believing altogether that love was meant for me.</p>
+  <p>Don&rsquo;t get me wrong, it goes both ways. What if I fall out of love? What if, ten years into marriage, I look across the breakfast table and feel&hellip; nothing? Then what?</p>
+  <p>I used to think love was a weakness.</p>
+  <p>You let someone in, and suddenly they have the power to influence how you feel. They can shape your day with a single sentence. So I thought, &ldquo;What if I expose myself to love enough that I become immune to its pain? What if I love like it&rsquo;s nothing, so when they leave, it doesn&rsquo;t sting?&rdquo;</p>
+  <p>(Exposure therapy they say).</p>
+  <p>Spoiler alert, it gets worse. Like actually worse.</p>
+  <p>Well, what now?</p>
+  <p>The people i date have nothing in common. Not physically not mentally. It just happens. Maybe I thought, &ldquo;If I find love in a new context, maybe it&rsquo;ll work.&rdquo;</p>
+  <p>But maybe love does not want me.</p>
+  <p>(I&rsquo;m not trying to be Kafka here but excuse me for the occasional victim mentality).</p>
+  <p>They say love will find you when you expect it the least. They also say if you don&rsquo;t actively flirt or make yourself available, no one is gonna come to make a move on you.</p>
+  <p>Honestly, screw all rules.</p>
+  <p>I just want to write poems about someone who makes my days better. That&rsquo;s all. I&rsquo;m not thinking that far ahead in life. I don&rsquo;t want to get married right now, i don&rsquo;t want kids. I just want to share a cup of coffee with someone I love, both in silence and in noise that we both share.</p>
+  <p>I just want to:</p>
+  <ul>
+   <li>Keep their photo in my wallet</li>
+   <li>Pluck daisies from the grass and put them in their hair</li>
+   <li>Send cute videos and random memes</li>
+   <li>Be the first person they tell when something wild happens</li>
+   <li>Try out new pick-up lines</li>
+   <li>Buy them comfort food when they&rsquo;re sick</li>
+   <li>Slap on face masks for skincare nights</li>
+   <li>Take secret pictures of them just because</li>
+   <li>Explore new restaurants</li>
+   <li>Give them plushies</li>
+  </ul>
+  <p><em>And the list goes on.</em></p>
+  <p>There are so many things i want to do. And yes, you can do a lot with your friends, and i love my friends but it&rsquo;s not the same. I want to merge souls with someone. I don&rsquo;t want to be constantly afraid that they&rsquo;ll be gone one day or that I might get bored of them.</p>
+  <p>There also lots of things i want someone to do for me.</p>
+  <ul>
+   <li>Make me breakfast when I can&rsquo;t get out of bed</li>
+   <li>Hold my groceries bag</li>
+   <li>Cuddle with me when my period cramps are too painful</li>
+   <li>Get me my favourite flowers on a random Tuesday</li>
+   <li>Send me a picture of a cat because it reminded them of me</li>
+   <li>Bring me my favourite chocolate when I feel self-conscious about my body</li>
+   <li>Take pictures of me in cute outfits so I can post them</li>
+   <li>Handle my moods with care instead of calling me sensitive or annoying</li>
+  </ul>
+  <p>These all feel like the bare minimum.<br>And yet, somehow, I feel like I&rsquo;m cursed to become a cat lady.<br>Except I&rsquo;m <em>terrified</em> of cats.</p>
+  <p>Sometimes, I want to thank the person who taught me what love <em>should</em> feel like (You know who you are.) But I also want to curse you. Because now&hellip; I can&rsquo;t settle for less.</p>
+  <p>So what now one might say?</p>
+  <p>I don&rsquo;t know. Maybe it will come when it wants to or maybe I&rsquo;ll die in two weeks. (Hey, anything is possible).</p>
+  <p>People say you should &ldquo;love yourself first&rdquo; before someone else can love you. But honestly? That&rsquo;s a bit of a scam.<br>Everyone has insecurities. Everyone has something they dislike about themselves. I don&rsquo;t know a single person who&rsquo;s 100% in love with their own reflection.</p>
+  <p class="verse">The lim(1/x) as x &rarr; 0 = &plusmn;&infin;.</p>
+  <p>Zero is a fixed number, the absence of quantity. Infinity, on the other hand, is not a number, it&rsquo;s a concept representing something unbounded or limitless.</p>
+  <p>I don&rsquo;t want to wait an infinity just so i can be &ldquo;qualified&rdquo; for love.</p>
+  <p>So, if i was a math equation what would i be?</p>
+  <p class="verse">x + y = 1</p>
+  <p>Romantics would say: &ldquo;Two halves make a whole.&rdquo;<br>Sure. But so does <strong>-2 + 3</strong>, or <strong>20 &minus; 19</strong>.. Again, infinity of answers.</p>
+  <p>But what if <em>x</em> is 1?<br>Then <em>y</em> has to be 0, right?</p>
+  <p>Well technically yes.</p>
+  <p>What if there&rsquo;s more to the story?<br>What if <em>x</em> had a past that made it become 1?<br>And <em>y</em> was 0 now, but will be 2 later&hellip; while <em>x</em> drops to -1?</p>
+  <p>What if love isn&rsquo;t just about being perfectly equal at the same time&hellip; but about adjusting, shifting, growing, always making sure the sum stays <strong>1</strong>?</p>
+  <p>That&rsquo;s at least how I see it.</p>
+  <p>I don&rsquo;t mind giving more to someone as long as they&rsquo;ll also be willing to give me more in times of need.</p>
+  <p>And maybe that&rsquo;s why so many relationships fail.</p>
+  <p>Because we only measure what we&rsquo;re getting <em>right now</em>, not what we&rsquo;re building over time.</p>
+  <p>It&rsquo;s messy math.<br>It&rsquo;s learning to give when the other can&rsquo;t.<br>It&rsquo;s learning to <em>receive</em> without guilt when you&rsquo;re the one who&rsquo;s drained.</p>
+  <p>People talk about &ldquo;finding your other half,&rdquo; like you&rsquo;re both pre-packaged puzzle pieces waiting to click.<br>But what if you&rsquo;re just two variables, constantly evolving, shaped by your own pasts, your fears, your hopes.</p>
+  <p>That&rsquo;s more romantic to me.</p>
+  <p>It&rsquo;s not about two parallel lines but an intersection.</p>
+  <p>Because love isn&rsquo;t just <strong>addition</strong>.<br>It&rsquo;s trial and error. It&rsquo;s solving for x a hundred times and never giving up.</p>
+  <p>Commitment is about <strong>staying in the equation</strong>, even when the numbers don&rsquo;t quite add up (<em>yet</em>).</p>
+ `
+},
+{
+ roman:"VII", name:"If i was a <em>liquid</em>", date:"May 16, 2025",
+ html:`
+  <p>They say hair holds memories.</p>
+  <p>Every time I leave someone, I cut my hair. Usually it&rsquo;s bangs. It&rsquo;s kind of therapeutic actually. When you&rsquo;re on the verge of a breakdown and feel this sudden urge to cut your hair, it feels satisfying afterward (as long as you don&rsquo;t mess it up). And even if you do, you kill two birds with one stone. Cry.</p>
+  <p>Now that my hair&rsquo;s getting long, and my ends are splitting, it feels like a warning that something else is about to split too. A reminder to open my drawer again, find my scissors, and cut the <strong>dead ends</strong>.</p>
+  <p>I always go for the same hairstyle: just layers and curtain bangs. I like it because when I blow-dry it, it gives me volume. I don&rsquo;t like it when my hair is too short or all the same length. It looks <em>too</em> neat. And to maintain that, you&rsquo;d have to cut your hair very often. And as much as I like using scissors, I don&rsquo;t like cutting people off.</p>
+  <p>My late uncle was a hairdresser. He taught me some tips. Generally speaking, I like to DIY things. I like to do things myself because I don&rsquo;t think anyone can do them better than I can. At least, if I mess up, I can blame my own incompetence.</p>
+  <p>I&rsquo;m scared of bleaching my hair, though. I used to bleach my mom&rsquo;s hair every month. I kind of miss it. I love using hair dye: smothering the white formula onto the hair, putting enough, focusing on the right areas. But a little too much bleach on already fried hair is dangerous. The hair will break. And to fix it, you&rsquo;ll have to cut it again.</p>
+  <p>My mother was the type of mother who would lie to me every time we go to the hairdresser. When I finally agreed to cut my hair, under the promise it would be just a few centimeters, she&rsquo;d go behind my back and ask the hairdresser to cut a few more inches. Obviously, I&rsquo;d cry afterward.</p>
+  <p>Then she&rsquo;d say, <em>&ldquo;Hair grows back, hair grows fast.&rdquo;</em> And it does. She&rsquo;d ask me, <em>&ldquo;Do you really want to keep taking care of your long hair? It&rsquo;s too tiring and takes longer to maintain. Your hair falls everywhere.&rdquo;</em></p>
+  <p>I didn&rsquo;t care.</p>
+  <p>If I could keep people in my life, I&rsquo;d take care of my hair&mdash;as long as I didn&rsquo;t have to cut it.</p>
+  <p>The issue is, no matter how much care you put into your hair, bath oils, masks or heat protection, the ends are still going to split. You&rsquo;ll still have to cut them once in a while. Because if you don&rsquo;t, your hair will look horrible, harder to manage. The integrity of your hair gets lost. The longer you wait to cut it, the worse the damage. Split ends grow faster. If you wait too long, you&rsquo;ll end up cutting more than you originally intended to. It&rsquo;s like infection.</p>
+  <p>One thing i did learn from my mother, is that hair grows back. So when i do mess up my hair, it&rsquo;s never really gone. It will come back eventually, you just have to patient.</p>
+  <p>I can&rsquo;t say the same about people. Once they&rsquo;re gone, they&rsquo;re gone. Even when they come back, it&rsquo;s too late, you don&rsquo;t even want them anymore. You can use all the extensions you want to make your hair long but by the roots of your issue, your real hair still shows, still needs some touching, some cutting.</p>
+  <p>I&rsquo;m very careful when I cut my hair. I don&rsquo;t want to cut too much. Cutting can feel freeing when you&rsquo;re emotional. You might enjoy it a <em>little</em> too much. Your hands move the scissors everywhere. You see the strands fall into the sink, and at first it doesn&rsquo;t feel like enough, so you cut more. Sometimes, you cut healthy hair. Sometimes, you cut too short.</p>
+  <p>I&rsquo;m not that careful with people, though. Once I decide to cut someone off, I don&rsquo;t know where to stop, where to draw the line, where to drop the scissors. It becomes uncontrollable. And it scares me.</p>
+  <p>That&rsquo;s why I get so defensive when someone leaves. Because while I try to grip them too tight, they get suffocated. But my suffocation is a warning, a last chance for them to hold on before I&rsquo;m forced to let go. And usually, once I do decide to leave, it&rsquo;s when they finally rethink their decision. When they finally try to hold on to me.</p>
+  <p>But it&rsquo;s too late by then. I have a new haircut. You just had to hide the scissors.</p>
+  <p>And I see it every time it happens&mdash;it&rsquo;s a cycle. Just like how hair grows.</p>
+  <p>Then, they expect me back. They&rsquo;re surprised when I don&rsquo;t want them back. Some even get angry as if I owe them some invisible commitment they once refused to give me.</p>
+  <p>&ldquo;<em>Til death do us part</em>&rdquo; they say.</p>
+  <p>But where were those vows when I was forced to cut these strings?</p>
+  <p>People always leave. Just like you always have to cut your hair. And while one is fun, the other tastes bitter. And I&rsquo;m not sure I&rsquo;ll ever get used to it. Or want to.</p>
+  <p>Hair holds memory. And so do places.</p>
+  <p>But you can&rsquo;t cut places, you can only leave. Or fantasize about leaving. Long enough until you make new memories with other people. And somehow, the place you once dreaded&mdash;the street you avoided, the bar you stared at from afar every time you passed it on the tram&mdash;suddenly feels indifferent.</p>
+  <p>Places hold memory but time can make you forget. (Time also grows your hair).</p>
+  <p>But even with that blessing, the cycle continues.</p>
+  <p>Water has also its own cycle, just like hair. It turns into vapor, then to rain. Vice Versa.</p>
+  <p>If i were a liquid, I&rsquo;d be a perfume.</p>
+  <p>A mixture of essential oils, aroma compounds, alcohol, and water.</p>
+  <p>Oils and water don&rsquo;t mix well. But in perfumes, alcohol is used as a <strong>solvent</strong>. It binds them together.</p>
+  <p>Perfume is a liquid solution when stored, and becomes vapor when sprayed. That&rsquo;s what lets it cling to skin, hair, and fabric before it disappears.</p>
+  <p>If you don&rsquo;t wash you hair or your clothes, the scent will linger.</p>
+  <p>Perfume carries <strong>time, memory, place, and presence.</strong></p>
+  <p>Perfume never leaves, unless you want it to leave. And when you do, you start to miss its scent. When you smell the same perfume on someone else, it reminds you of the person who once wore it before.</p>
+  <p>Perfumes are <strong>powerful.</strong></p>
+  <p>It&rsquo;s easy to change the scent, to try a new bottle but perfumes are eternal. Even when they fade, you&rsquo;ll still associate them with the moment that made you love them.</p>
+  <p>And i believe, even if people leave, I&rsquo;ll still exist somewhere. In their drawers. In the air. In their memory. A part of their cycle.</p>
+  <p class="ps">P.S my favourite notes are jasmine, vanilla, coffee, almond and orange blossoms.</p>
+  <p class="ps">(Also, Prada paradoxe is on my next perfume list in case anyone wants to get it for me).</p>
+ `
+},
+{
+ roman:"VIII", name:"If i was a <em>period in life</em>", date:"August 8, 2025",
+ html:`
+  <p>So, to introduce you into the mind of an anxious person.<br>One important lesson to learn from it is that overthinking becomes not a skill, but rather a habit. It&rsquo;s part of &rdquo;Eat, drink, sleep&rdquo;. Though, in my case, you could argue I barely do any of those either.</p>
+  <p>I would have loved to assure you that an anxious person only overthinks the important stuff, but no.</p>
+  <p>We literally overthink the stupidest shit.</p>
+  <p>Let me give you an exemple.</p>
+  <p>I was packing yesterday because i&rsquo;m moving out in two weeks.</p>
+  <p>I felt proud, I&rsquo;m not leaving myself last minute. I&rsquo;m literally going on a vacation with my friend 4 days before I&rsquo;m supposed to give the keys which is very unusual of me but hey you live once.</p>
+  <p>So while i started packing stuff into my luggage. As we all do, (maybe not because i have lots lots lots of cloths, had to donate 4 bags worth of cloth items), I had to sit on my luggage to be able to close it. Aye, the struggles of trying to fit 20 sweaters and 5 jackets into a luggage.</p>
+  <p>And guess what, the zipper broke.</p>
+  <p>So now i had to find a way to fix it, which i did but i had to cut a part of the zipper so actually it&rsquo;s not really airport friendly. But that&rsquo;s an issue for later on right? No, i started checking websites to buy new luggages.</p>
+  <p>A normal person would probably just buy whatever just to go by with it but no. I was lost on what colors i want this time around.</p>
+  <p>It&rsquo;s important??? Like, i need a color that suits my future apartment, i need a color that looks great when i&rsquo;m travelling, i need a color that won&rsquo;t be too flashy, and then i saw a black color luggage and i have once told myself, i&rsquo;ll never buy black luggages not because they&rsquo;re not cute, but because EVERYONE has them and i&rsquo;ll struggle finding mine in the airport. So then i was like ooh it&rsquo;s a chance for me to add stickers on it and customize it, it would looks so cool. But then i was like, black luggages in your bedroom??? Too sharp??? Also, won&rsquo;t you grow bored of the stickers???</p>
+  <p>So that&rsquo;s a spiral that i haven&rsquo;t figured out yet.</p>
+  <p>And that&rsquo;s just for picking a color for a luggage.</p>
+  <p>There was another spiral, do I want to put the rest in cartoon boxes or buy another set of luggages and travel with SIX luggages???????</p>
+  <p>Haven&rsquo;t figured that one yet.</p>
+  <p>I tell myself i still have time to figure things out,</p>
+  <p>(I don&rsquo;t, I just love to procrastinate).</p>
+  <p>I told the guy I like i have 10 pairs of jeans i need to get rid of some against my own will to which he replied, just pick your top 3 favorites??? top THREE???</p>
+  <p>Excuse me??? This man thinks i can live with 3 pairs of jeans????</p>
+  <p>How to explain to a man that i need EVERY shade of jean because not ALL tops go along ALL jeans. It&rsquo;s also the vibes like??? a black tshirt on a black jean fits differently than a black tshirt with a light wash jean. Also, have you ever heard of cuts??? Straight, mom jeans, loose jeans, wide leg jeans, jeans that makes you butt look nice, flared jeans etc etc, IT MAKES A WHOLE DIFFERENCE THERE&rsquo;S SO MANY OPTIONS.</p>
+  <p>You will not be catching me with a skinny jean though.</p>
+  <p>Maybe i would&rsquo;ve been a rich business woman by now if i didn&rsquo;t stop myself at these type of decisions. Or maybe, i can&rsquo;t be a rich business woman without the proper fashionable attire. It&rsquo;s all about perspectives.</p>
+  <p>What i do know, whether it&rsquo;s jeans, colors, luggages and all of that, i need to start making my life easier.</p>
+  <p>It would be nice to just shut your brain sometimes.</p>
+  <p>It&rsquo;s not that i struggle to take fast decisions, it just takes me lots of thinking before i decide on making one. Unless i&rsquo;m being put in a liife to death case situation. Then trust me, i just act on it instead of thinking.</p>
+  <p>But anyways.</p>
+  <p>Life.</p>
+  <p>Well it&rsquo;s summer love, stop thinking of life.</p>
+  <p>&ldquo;Summer&rsquo;s meant for loving and leaving&rdquo;</p>
+  <p>Well, in my case, summer is meant for life changing situations, new chapters, new goals.</p>
+  <p>I do love summer and i hope it stays that way. And then soon comes Autumn, my favorite season.</p>
+  <p>I think I&rsquo;m changing&hellip;. Well i&rsquo;m not sure.</p>
+  <p>I was told today, you seem sadder when you write than what you actually are. And it is true.</p>
+  <p>I&rsquo;m more optimistic than what I&rsquo;d like to portray myself to be. I don&rsquo;t know why. I think, i get lost sometimes between the lines of the blues, between the emotions of things, between investing myself too much to feel a certain thing that i just completely get drown in it. But there&rsquo;s a fire in me. Sometimes hidden but i know I&rsquo;ll always keep moving. Because what is life without hope?</p>
+  <p>Maybe i&rsquo;m more pessimitic sounding because while i do agree on most of my life perspectives, call me an absurdist for all i care, but i&rsquo;m too afraid to promise someone that i&rsquo;ll make it happy in this life.</p>
+  <p>Because what if i fail?</p>
+  <p>What if i&rsquo;d rather swim in the pool of reality, and keep my fantasies to myself. What if there&rsquo;s a much bigger world in my head than in my words? And what if i tamed that world because it is too big to contain with my bare hands? No refund policy, no guarantee.</p>
+  <p>Okay, i got carried away again.</p>
+  <p>See, an anxious person doesn&rsquo;t stay stuck in one idea. An anxious person jumps from one to another even if they are irrelavant.</p>
+  <p>Sometimes, they do get stuck, but it&rsquo;s never on one thing.</p>
+  <p>It&rsquo;s a series of thoughts, all fighting to take their turns.</p>
+  <p>I kinda want to read the dsm just for fun now.</p>
+  <p>Actually, i want to do lots of things. To which i end up procrastinating every single time.</p>
+  <p>Just like i was about to procrastinate this blog.</p>
+  <p>I bought a mini book to help with my procrastination two years ago, i saw it again while i was packing for things, put it in the bin of things i wanna keep, because who knows, maybe one day i&rsquo;ll actually end up reading it.</p>
+  <p>Or maybe not.</p>
+  <p>Anyways, I&rsquo;m grateful for the things i have in life, grateful for the people i share my day to day with, grateful for the people who I stopped talking to, grateful for the messed up family i have, grateful for the fact that even though life is hard sometimes, it still can be harder and is harder for others but it&rsquo;s just as hard enough to keep me less bored and more on my toes.</p>
+  <p>Grateful for every little tiny detail that made me become who i am because actually, i love who i am. I love the person that overthinks things just like i love that same person that detaches sometimes and run away from commitments.</p>
+  <p>In all of my flaws, and maybe relative qualities, I&rsquo;ve come to realize, that even though i like to vent on stupid stuff sometimes, I&rsquo;m still grateful for the things that i have, and grateful for that hope that never lights dark, grateful that after every heartbreak or whatever you wanna call it, i don&rsquo;t stop wanting to find love. I&rsquo;m a constant moving human being, even if i take some steps back sometimes, change and growth are not a constant line. There will be ups and downs. Life doesn&rsquo;t have to be a parabola. These are not the best year to come.</p>
+  <p>And anyway, what&rsquo;s the worst thing that can happen?</p>
+  <p>Die?</p>
+  <p>While that&rsquo;s something i&rsquo;m still waiting for, i realize it would be a pity if i just die without having tried to enjoy my life.</p>
+  <p>Wherever i am in this phase of life, i know that i am exactly where i need to be. Everything&rsquo;s aligned.</p>
+  <p>I need to stop fearing what&rsquo;s gonna come anyway regardless if i want it or not, so i&rsquo;ll just be. A little whimsical witch having her renaissance twice a year.</p>
+  <p>I think i ate good veggie nems and that&rsquo;s why i&rsquo;m in a good mood today.</p>
+  <p>Fun fact, while I typed this whole entry, i received a job opportunity. And guess what, days after that, now I&rsquo;m changing all of my plans, the city i was supposed to move to and i have 4 DAYS TO DO THAT.</p>
+  <p>Maybe I should&rsquo;ve just felt grateful for things i have before. Or maybe, everything i went through this year made me finally be in a state of mind that allows me to feel genuine gratitude. I&rsquo;m moving to the city i want, close to the people i love, i met an awesome guy who loves me for me, I&rsquo;m gonna get paid more than the other job offers i had, sure i have yet to figure out some new things but what I <em>do</em> know, is that I finally can move on in life in the way I was meant to be.</p>
+  <p>So if i was a period of life, I&rsquo;d be the one just before the rise. The one where you think you messed up your job interview and swore you wouldn&rsquo;t get the job yet all the signs were there, the one where the sad songs don&rsquo;t hurt as much, the one where you meet new people who change your life somehow, the one where you&rsquo;re at peace with yourself and don&rsquo;t mind being alone, the one where you think everything&rsquo;s over until everything switches up like a button.</p>
+  <p class="ps">P.S I ended up buying a beige and brown luggage for the people who care.</p>
+ `
+},
+{
+ roman:"IX", name:"If i were a <em>witch</em>", date:"August 31, 2025",
+ html:`
+  <p>This is a chapter about a witch who never had to cook love potions. Mainly because she didn&rsquo;t need to.</p>
+  <p>But what she didn&rsquo;t know was that getting men to love you is not an accomplishment in itself. Making them stay is.</p>
+  <p>Yet she never dared to open the book of sorcery. It held a power stronger than she could ever control. Playing with that kind of power is dangerous. The wrong things could happen. Ghosts could awaken from her batch, and the man she wished to keep could be consumed by those same ghosts.</p>
+  <p>And in theory, yes, he stayed. But he died two weeks later. So at what cost?</p>
+  <p>The witch was too scared to meddle with her fate. She seemed drawn to a miserable kind of happy ending.</p>
+  <p>Playing with one&rsquo;s own fate can be far scarier than trying to manifest or alter it.</p>
+  <p>But if something does happen, does it mean it was always meant to be or that we have rewritten the laws of life?</p>
+  <p>This witch remained helpless in her latest love affair, even after leaving fate to its own devices.</p>
+  <p>She decided this time to simply stay, despite the bold, capitalized red warning that it would not last. She did like red, after all. Maybe she mistook its warning for passion.</p>
+  <p>No matter what she did, leave or stay, give or take, it never ended the way she wanted.</p>
+  <p>Yet this one was different. Unlike her previous flings, he did not make her wake in the night, wondering if he would stay, fearing the moment he would leave. She turned a new page. Fear did not take hold. And for a while, things were peaceful.</p>
+  <p>She felt loved. Truly appreciated.</p>
+  <p>She even stepped out of her comfort zone, testing her own limits, because that is what she had been taught love is.</p>
+  <p>He was devoted to her, maybe more than she was at first. He did everything she desired without her asking. He even said he would rewrite the laws of their doomed fate.</p>
+  <p>But maybe she still needed a potion to make him stay. Perhaps that is how the others kept their men, she mused.</p>
+  <p>She let it be. She did not ask the stars for answers. She did not consult the tarot. It was as if the witch had retired, because she did not need to battle life&rsquo;s will to see what she already knew.</p>
+  <p>And now she had lost her cards.</p>
+  <p><em>What is a witch without her cards?</em></p>
+  <p>Nothing. Just a dying old woman with no power to read the world.</p>
+  <p>She thought she did not need them, so she packed them in the wrong box, which never got shipped. She told herself the cards could wait. She had everything she needed, friends, work, health, and love. What more could the cards offer?</p>
+  <p>They would have warned her of the heartbreak she did not see coming.</p>
+  <p>And just as this love was different from the others, the heartbreak was different too.</p>
+  <p>She had been out of touch with the world. She continued her life, only noticing loneliness creeping back in. That is when she realized she had not felt true sadness in a long, long time.</p>
+  <p>Now sadness returned, temporarily, and the cloud of imagined fairy tale dissolved into reality.</p>
+  <p>So what is a witch who cannot control what no one can control?</p>
+  <p>A miserable witch.</p>
+  <p>Usually, she had piles of poetry to remember her old flings. But she never wrote one for him. She felt at peace, so no poem was needed.</p>
+  <p>Now, as she writes again, that peace is disrupted.</p>
+  <p>Her life had not been perfect when she met him. Weeks before, the same struggles existed, but their effect seemed to vanish. She will seek this type of love again, because it felt better than all the chaotic, inconsistent affairs before.</p>
+  <p>But now he is on a journey to find himself, to battle his own demons. He had no choice but to let her go.</p>
+  <p>Staying with her would have dragged her into the turbulence of his mind. The witch cursed him just because she played with the world&rsquo;s fate.</p>
+  <p>He stopped appreciating her, stopped giving the energy he once promised, stopped being patient, stopped spending time with her. He was trapped in his own misery.</p>
+  <p>For once, the witch dated someone more tormented than herself. And it backfired.</p>
+  <p>But knowing the witch, she would have stayed anyway. Tried to help him navigate his messy thoughts. Even when she did not want to, she would have stayed.</p>
+  <p>The witch is too loyal to leave, too afraid to hurt others. She must learn to leave when it is clear things are not meant to be. She should have learned that three heartbreaks ago.</p>
+  <p>Now that he left, she feels betrayed.</p>
+  <p>She is hurt because he made her want to fight for something she knew the cost of, only to abandon it for the same reasons he once urged her to endure.</p>
+  <p>She cannot even bring herself to respond to his last messages. Every reminder of him forces her to face reality. And she does not want to feel emotions she cannot control.</p>
+  <p>The witch retired from feelings long time ago.</p>
+  <p>She is also considering retiring from her title.</p>
+  <p>Being a witch grants power, to get what you want, to read the future, to charm men. But it also means being alone. Witches were burned in old times, feared, cursed to fail in love. Witches are meant to be desired, not loved.</p>
+  <p>Now she must choose: love, or the power to be who she wishes to be.</p>
+  <p>The witch will shed no more tears today.</p>
+  <p>She must decide which kind of witch she wants to be.<br>One who poisons red apples, or one who poisons the tree.<br>One who brews love potions for women to defeat their disrespectful men, or one who hides in her cave, waiting for moonlight and her time to come.</p>
+  <p>If she were to be a witch, she must forfeit the power of eternal love. For no witch she knows has ever found it.</p>
+  <p>But is love truly all she wants. And will she still want it when it arrives.</p>
+  <p>The witch has no answers today.</p>
+  <p>Tonight, she will make soup in her cauldron to sweeten her love prophecy.</p>
+ `
+},
+{
+ roman:"X", name:"If i was a <em>time-keeper</em>", date:"September 21, 2025",
+ html:`
+  <p>Dreams are like clouds.</p>
+  <p>They seem far away, hard to reach, but ideally you want to reach the sky. It&rsquo;s all you care about. It&rsquo;s all that gives you a boost of serotonin. It&rsquo;s all you&rsquo;ve been taught to do. Why? Because you&rsquo;ve been promised that there is another world, a better world, another feeling that will justify all the hard work and sorrow you put in to reach for it.</p>
+  <p>But what they don&rsquo;t tell you about clouds is that when an object in motion reaches the clouds, if it&rsquo;s too fast, the clouds will dissipate and vanish away.</p>
+  <p>So in the end, you end up reaching the outer layer of the earth, holding no dreams in your hands, stuck in outer space where you&rsquo;ll die in as many seconds as you can hold your breath for.</p>
+  <p>But even if you&rsquo;re not too fast, your hands are too small to hold it. If you didn&rsquo;t know, clouds are made of tiny drops of water. And guess what, we cannot hold water in our hands; it will drip. All of it.</p>
+  <p>So just like you can&rsquo;t hold on to the clouds for dear life, you cannot hold on to your dreams. Because once you feel like you reached them, it feels like they vanished away. Like now you have to find another new dream, another new goal.</p>
+  <p>Dreams are like clouds and nightmares are like tornadoes.</p>
+  <p>Though, generally, one does seem to be worse than the other.</p>
+  <p>And as many people have asked me in my life about my dreams, I stopped dreaming a long time ago.</p>
+  <p>I had many dreams. Actually, a lot of them I have reached. But lots of them seem to be things to wait out for.</p>
+  <p>Do I dream? No, but I wish I did. I only seem to be getting nightmares. Thankfully they&rsquo;re not as recurrent.</p>
+  <p>So what does one dream of?</p>
+  <p>A dream job? Money? A spell to revive one of their dead relatives? Death? Love?</p>
+  <p>Are those really dreams or are those things we are taught to look forward to?</p>
+  <p>My dream for as long as I can remember was to try to enjoy my life to the fullest. And yes I said <em>try</em> because I can be very nitpicky or fearful of trying things that might cause bad consequences.</p>
+  <p>Except in love maybe in that area I&rsquo;d like to think I&rsquo;m fearless. I think I try my best in situations that the rational would escape from.</p>
+  <p>That hasn&rsquo;t gotten me anywhere but at least I formed some memories, special times with some people.</p>
+  <p>The past few months I started to see relationships as temporary lessons. Not all of them are meant to last, and that could be a good thing. Especially if you&rsquo;re stuck in some that are not meant to be or are unhealthy for you.</p>
+  <p>And maybe I won&rsquo;t be talking to some of the people who once meant a lot to me, but I know that we both have impacted each other&rsquo;s itineraries somehow. The memories will never fade away.</p>
+  <p>In retrospect, it&rsquo;s better to have memories than to have nothing. At least I know I&rsquo;m learning my lessons. With each relationship I learn something new that I apply to the next ones. So maybe relationships to me are like chapters in a how-to book.</p>
+  <p>And when I&rsquo;m finally ready, love will come to me.</p>
+  <p>What I do know though is that old habits die hard. If something ended with someone it means they were not meant to be. They say everybody deserves second chances, or that third time&rsquo;s the charm, but I say once is enough to know if that person is for you or not.</p>
+  <p>I&rsquo;m a hard believer that if they can let go once, they can let go twice and more. And that&rsquo;s not what I&rsquo;m looking for in a partner. After all, the vows of marriage don&rsquo;t just start once you&rsquo;re married. You should prove yourself before arriving at that late stage of the relationship. You can ask for a timeout, a little break, some space, but when you ask to break off the relationship, you do it with the knowledge that it&rsquo;s gone forever.</p>
+  <p>Because if you do give someone a second chance, then the memories will be ruined. Chances are it won&rsquo;t work the next time either, probably for the same reasons. If you can give up once, you can give up twice.</p>
+  <p>But if you&rsquo;re someone that believes in second chances, then that&rsquo;s great.</p>
+  <p>Maybe one day I&rsquo;ll learn to give second chances and maybe I won&rsquo;t be as bitter and resentful and I&rsquo;ll learn to be graceful, and maybe I already am, but there&rsquo;s part of me that doesn&rsquo;t want to acknowledge my soft side.</p>
+  <p>Either way, whatever happened in my life, I am grateful for everything that happened. I think I reached the final destination. I&rsquo;m finally at a point in life where I think I can die peacefully.</p>
+  <p>I&rsquo;m happy to say I succeeded in fulfilling the dreams of the little me. I&rsquo;m in Paris, I have friends, I have a job that I&rsquo;m actually liking and I love the people I work with. I literally got a peacock feather from my colleague and I never thought I&rsquo;d get such a welcoming gift. I finally found a room and I&rsquo;m loving my new place. It&rsquo;s not perfect but it&rsquo;s good enough.</p>
+  <p>I think one thing I learned the last few years is that I&rsquo;m finally in a place where I want to be grateful for the things that I have.</p>
+  <p>Most of my life, I struggled with being humble and grateful for the things that I have and now I think my new attitude is that yes, I don&rsquo;t have the best, I can always have more, but I already have a lot, and I worked a lot for it and finally it&rsquo;s all coming together.</p>
+  <p>Sure, there&rsquo;s always things to add like a boyfriend wouldn&rsquo;t hurt?? for example, a higher-paying job, a better apartment, going back to my country more often, but I feel like I already have enough to keep me going.</p>
+  <p>I&rsquo;m neither happy nor sad, I&rsquo;m just glad I&rsquo;m existing at this exact minute in this exact place and I hope it will last.</p>
+  <p>There&rsquo;s a thing called optimistic nihilism and I think I&rsquo;m leaning toward that.</p>
+  <p>All of my convictions and thoughts from the past did not change; I still believe in the struggles and atrocity of life, but maybe part of it being useless also means that I have the free will to make of it what I want.</p>
+  <p>But now, what will my dream be?</p>
+  <p>Maybe I don&rsquo;t need dreams anymore. And maybe I&rsquo;ll get a new dream when I&rsquo;m showering. I think I need a break from figuring things out in life. Maybe life is not a puzzle that I need to solve all the time. Maybe I&rsquo;d rather now enjoy what I have before it gets swept away. Because it will. That&rsquo;s how life works. But what&rsquo;s good in life is that even when things get bad, they get better again.</p>
+  <p>The bad does not last forever. Neither the sadness.</p>
+  <p>I&rsquo;ll always be a melancholic person, someone who enjoys sad songs, sad poetry, sad movies, but I can be content while doing that. Both can coexist at the same time.</p>
+  <p>I think I want life to be more than just a text message I&rsquo;m waiting for, a person to enter my life, a job that&rsquo;s going to bring me joy, a hobby or a purpose that&rsquo;s going to make me feel useful. I want my life to be slow, steady and calm. Just me enjoying going to work, I don&rsquo;t have to love it, I just have to like it enough. Come back home, cook a delicious meal, read a book, talk to the people that matter to me and sleep.</p>
+  <p>And if the rest wants to follow up, then that&rsquo;s even better.</p>
+  <p>But for now I&rsquo;m content with what I have. I don&rsquo;t need more.</p>
+  <p>So what if i were a time-keeper? Would i go back to the past, would i stay in the present or would i jump to the future? Would I even keep the memories or would i erase all of them?</p>
+  <p>I don&rsquo;t think i&rsquo;d like to go to the past. What&rsquo;s done is done.</p>
+  <p>Even if you wanted to change the past, there are millions of scenarios that can happen, and things can STILL go wrong.</p>
+  <p>If i were a time-keeper, i would hold on a bit longer to my memories. Why? Because when things end, i erase everything from my mind. It&rsquo;s like I&rsquo;m wired to detach and forget that this one thing existed. Obviously not immediately, but if you ask me what happened two months ago, I&rsquo;d probably forget.</p>
+  <p>Maybe if i hold on more to the good memories, then things could be different, or maybe not. Maybe it&rsquo;s a gift that I&rsquo;m able to just shut my thoughts about things that can hurt. Though that has caused me a very bad memory skill. I wouldn&rsquo;t be shocked if i get amnesia in the future.</p>
+  <p>They say memory can be trained, but it&rsquo;s very hard for me to want to relive moments in the past. I&rsquo;d rather just create new memories, go to the next thing, try to move on.</p>
+  <p>But maybe I&rsquo;m failing because I know that if people reached out again, old friends, old lovers or old strangers, I&rsquo;d always be there. I never forget how much one person meant for me even if little. And people don&rsquo;t know that about me unless they really really know me deep down and know that behind all this front and the distance that I keep, the messages that i stop sending, or the harsh honest words that i might say there&rsquo;s an empath who can possibly forgive if asked to.</p>
+  <p>Well that&rsquo;s the outcome with growing up with two Pisces parents, a mother that thinks the best of people and a father that cries when sees a person suffering.</p>
+ `
+},
+{
+ roman:"XI", name:"If i were a <em>shop</em>", date:"September 28, 2025",
+ html:`
+  <p>I saw a video the other day on Instagram about the difference between romance and love, and it was a bit jarring.</p>
+  <p>Why? Because I&rsquo;ve always thought love and romance fall under the same label. I never considered that they could be two different things.</p>
+  <p>You can do something out of love, but you can also do something out of romance. They are not always correlated. They don&rsquo;t have to exist under the same moon.</p>
+  <p>It made me wonder: do I do things out of love or out of romance? And do I want love, or do I want romance?</p>
+  <p>Maybe it&rsquo;s all relative, but I&rsquo;ve been searching for differences and I&rsquo;m really struggling to differentiate the two. Maybe it&rsquo;s my Venus in Pisces, or maybe I grew up watching romcoms and reading romance books that altered my reality and my expectations of a relationship.</p>
+  <p>There&rsquo;s one thing I always tell people I date: I have a fear of the romance dying in a relationship because I feel like romance is necessary to keep it going, to keep the spark alive. You might disagree with me, but I don&rsquo;t think the honeymoon phase should end. I also don&rsquo;t believe it necessarily does.</p>
+  <p>If you aren&rsquo;t delusional about how you portray your partner at the beginning of a relationship, your perception of them shouldn&rsquo;t be drastically altered to the point where they feel like a different person.</p>
+  <p>I believe it is possible to have a long-lasting honeymoon phase where the love&mdash;or maybe in this case, the romance&mdash;never dies.</p>
+  <p>Why would you want it to die? That&rsquo;s the best part of a relationship: the effort you put in, the little gestures you do for the other person, the thoughtful gifts and activities. Why, when we say the honeymoon phase dies, does it automatically imply that there is a routine in the couple, that things have become boring, that they put less and less effort into impressing the other person because they already &ldquo;have them&rdquo; or have grown tired of them?</p>
+  <p>Putting effort into impressing your partner should not feel tiring or useless.</p>
+  <p>If you&rsquo;ve been yourself from day one, it should never feel exhausting. I get it when someone tries to impress the other by omitting crucial details about their day-to-day life or personality, but if you date with the mindset of staying true to yourself, it shouldn&rsquo;t feel different.</p>
+  <p>But if you were putting on a show just to get someone, and then once you had them you took a step back, that feels like conning. I didn&rsquo;t sign up for a relationship where the other person acts like a 30-year-old couple after three months.</p>
+  <p>Why the rush?</p>
+  <p>If you aren&rsquo;t planning dates, activities, or couple time that is all about just the two of you in the first few months of a relationship, then there is a problem.</p>
+  <p>Ironically, it&rsquo;s often the same type of people who cheat on their partner because they find them boring or think things aren&rsquo;t exciting.</p>
+  <p>I know this is more about romance than love, but I genuinely believe that to nourish love, romance must always stay alive.</p>
+  <p>Obviously, there will be times when romance fades temporarily, but it shouldn&rsquo;t last too long. Otherwise, it becomes routine.</p>
+  <p>I want the thrill, the excitement, the feeling of being loved and valued, the sexual chemistry, the anticipation of doing something special with my partner.</p>
+  <p>Why would I want a non-romantic love affair if not for that?</p>
+  <p>I&rsquo;ve been living on my own for two years. I don&rsquo;t need someone just to act like a background character.</p>
+  <p>The same should apply to other aspects of life.</p>
+  <p>I want to stumble upon a random stranger in a grocery line and think they are my soulmate. I want to blush over a text a year into a relationship. I want to get excited with my partner because we have a dinner date Friday night after we put the kids to bed.</p>
+  <p>Now what&rsquo;s left, is finding someone who shares the same visions as me.</p>
+  <p>Until then, I wish for all the lover girls and boys, a very romantic life.</p>
+  <p>That includes romanticizing your hang out to the coffee shop, romanticizing the stories you post on Instagram, romanticizing your aesthetic, romanticizing every good thing that comes.</p>
+  <p>I&rsquo;ll be romanticizing the new airfyer i bought today. (It&rsquo;s even bigger than my old one!!!!)</p>
+  <p>Maybe i&rsquo;ll try to bake brownies next weekend in it, just to prove a point.</p>
+  <p>(Okay now i&rsquo;m actually excited because of this idea and i have something to look forward to next week.)</p>
+  <p>If i were a shop, i&rsquo;d be a bakery shop. Not because i bake that GOOD. (I haven&rsquo;t baked in 2 years) but because who doesn&rsquo;t like bakery shops. You can buy sandwiches, cookies, croissants. There&rsquo;s every option you need. Some of them are decorated extra cute to make you feel at home. Imagine a hot warm fudgy brownie in your mouth. Next to a GOOD coffee. Looking at the window watching strangers walk and wondering what they&rsquo;re up to in life, what they are thinking, are they in a rush?</p>
+  <p>Looking at the bakery goods, wondering which one you&rsquo;ll buy this time. Are we going for creams, pastries or chocolate?</p>
+ `
+},
+{
+ roman:"XII", name:"If i was a <em>star collector</em>", date:"November 1, 2025",
+ html:`
+  <p>I never had a favourite painting. Sure i liked a lot of them, even the popular ones, but I&rsquo;ve never been drawn to one specifically. I don&rsquo;t have a painting I&rsquo;d like to own in my house. (That&rsquo;s rich coming from a girl who goes to museums often.)</p>
+  <p>It might change now.</p>
+  <p>I saw a video about a painting called <em>The Shadow</em> by Edmund Blair Leighton. The narrator was explaining the meaning of the painting, and it made me want to explore more about art and the hidden meanings behind a single frame. It&rsquo;s like a picture that took weeks to take, though with a picture, the elements exist within your field of vision.</p>
+  <p>The painting shows a woman painting the shadow of her lover, who is going to sea for war. How do we know this? There&rsquo;s a ship behind her in the far background, and he&rsquo;s wearing a very indicative outfit. A normal person would embrace and kiss their lover before they go to war. They cry, they try to cherish the last seconds before they&rsquo;re gone, possibly forever. She can never be sure if he&rsquo;ll ever come back.</p>
+  <p>But why did she paint his silhouette on the stone wall instead? To eternalize him. To freeze his absence in time.</p>
+  <p>It&rsquo;s a painting for the hearts that don&rsquo;t want to forget, that don&rsquo;t know if their lovers will ever come back to them, at least in the way they remember them.</p>
+  <p>And just as you can interpret art the way you want, I can also interpret it as a way to keep the good memories of an ex-lover who&rsquo;s far gone and may never come back.</p>
+  <p>I&rsquo;ve always believed there&rsquo;s something sinister about goodbyes, how sometimes you can love someone yet let them go. I&rsquo;ve always revolted around that thought.</p>
+  <p>Maybe it shouldn&rsquo;t go this way, but the way I love is limitless. By that I mean I believe in sacrifices, I believe in never letting go, I believe in defying the currents of life, in staying even when things are not yet clear.</p>
+  <p>I learned about myself this year that I struggle to let go of someone I genuinely cared for, someone I really wanted to believe I could have a unique bond. Someone with whom I felt our connection was so strong that it was boundless. I put in everything, my energy, my time, my consuming thoughts. It can be exhausting or scary, but this is how I love.</p>
+  <p>The issue is, I believe the other person appreciates the bond just the same, that they will also make that sacrifice and have that state of mind.</p>
+  <p>I&rsquo;m big on loyalty. I can&rsquo;t fathom the idea of talking to two men at the same time, just like I can&rsquo;t fathom the idea of moving on when I know the other person still wants me. Even when the breakup happens, I don&rsquo;t want to move on unless that person doesn&rsquo;t want to talk to me anymore or starts seeing someone else. (It&rsquo;s bad, I know.)</p>
+  <p>It just feels like it goes against my moral compass, and that&rsquo;s the issue. I don&rsquo;t want to be the one giving up on the other person. What if one day I fall for someone who actually wants to stay? I can&rsquo;t risk losing that person. I don&rsquo;t want to break someone&rsquo;s heart because I moved on first. I don&rsquo;t want someone to go through the whirlwind of emotions I go through when someone does that to me. <strong>I&rsquo;m physically and mentally unable to</strong>.</p>
+  <p>I didn&rsquo;t know I had this curse until this year. There were many signs that showed this wasn&rsquo;t out of character for me in my previous relationships, but I never put two and two together.</p>
+  <p>As a result, I keep getting the end of the knife&rsquo;s stick.</p>
+  <p>So the question goes, to hurt or to be hurt?</p>
+  <p>I don&rsquo;t think there&rsquo;s a good answer.</p>
+  <p>Sometimes I feel like I can be strong enough to go through things, and I&rsquo;m afraid others can&rsquo;t, so I feel responsible for sheltering people&rsquo;s emotions and hearts at my own expense, just because I can take it.</p>
+  <p>It sounds bad, I know. I just don&rsquo;t know what to do.</p>
+  <p>The idea of hurting someone&rsquo;s feelings (unless I&rsquo;m angry, which trust me, I can easily do) feels like digging nails into my skin.</p>
+  <p>The only good thing I can come out of it all is that I get to live a life without regret or guilt. At least I know I tried my best and stayed until the end.</p>
+  <p>Eventually, I&rsquo;ll get my closure. Usually, it happens when something makes me realize that they&rsquo;d never do the same for me. I believe in the goodness of the heart of someone I genuinely loved until they show me otherwise. Then, when they&rsquo;ve shown me that they&rsquo;re not people of their word, that love and commitment for them are conditional or what we had for them was a nuanced casual affair, that they don&rsquo;t know how to respect someone they once cared for, I&rsquo;m out the door. That&rsquo;s when I feel the weight lift off my shoulders and I can set myself free. Close my eyes and move on.</p>
+  <p>I think the person you become after a breakup is very telling of who you actually are.</p>
+  <p>Just like some soldiers get PTSD after the war and they become unrecognizable to their family, some people change drastically after a breakup, and that&rsquo;s never a good sign. (At least in my humble opinion).</p>
+  <p>I believe that if my connection with someone was so close and deep that it almost felt like a soul connection, I&rsquo;d want to cherish that connection for life, never bury it.</p>
+  <p>I don&rsquo;t necessarily mean never move on from your ex or stay stuck in the past, but you don&rsquo;t have to erase that person from your life. How is that humane? You can be cordial, friendly, do some check-ups. I know I&rsquo;ve done that and it has worked out, so I know it&rsquo;s possible.</p>
+  <p>But when they start to treat you horribly once they met someone new, as if you only mattered to them when they wanted you and were chasing you, or when they ignore you after they begged you to stay in contact, left like a guilty assassin and disappeared from the face of the earth, I think it&rsquo;s very telling of the person in question.</p>
+  <p>I don&rsquo;t see myself ever doing that. I hope I don&rsquo;t. I cherish my bonds much more than that, even when they end. And I actually kind of love that about me, even if some people may disagree on my views of after-relationships.</p>
+  <p><strong>I want to live a life where human connections are appreciated and valued.</strong></p>
+  <p>Where one considers his friend as his brother/sister, where help feels genuine and responsible, where connections are not just there to gain something, where you can spread kindness even when you fought with someone. Where your hearts speaks louder than your ego.</p>
+  <p>You don&rsquo;t get to have that kind of life-changing connection with just anyone. Imagine intentionally hurting and disrespecting the person you once thought the world of that way. How can you carry on with your life with no regret, remorse, or shame for treating the people you loved in such a disdain manner? What do you leave for the people you don&rsquo;t care about?</p>
+  <p><strong>They also say people who don&rsquo;t love themselves punish others for loving them.</strong></p>
+  <p>For some reason, I feel it&rsquo;s becoming a pattern with the people I date. Even today, when I told my friend about how things ended with the last guy I dated, she said, &ldquo;How do you keep dating the same caliber of men?&rdquo;</p>
+  <p>And by that, she meant mentally challenged, depressed, insecure, too absorbed in their own issues, who are interested in me only at first to get some sort of validation then when I&rsquo;m actually committed because i get anxious in the beginnings, they&rsquo;re gone by the wind.</p>
+  <p>I guess part of it is my fault. I also pick these men.</p>
+  <p>But I don&rsquo;t know, I&rsquo;m drawn to loving men who had a tough upbringing. I want to love the weak, show them that they can be loved, that I care for them, that they don&rsquo;t have to be alone.</p>
+  <p>Sure, I could try to date a normal guy with no issues&hellip;&hellip; but who&rsquo;s going to take care of the people who don&rsquo;t know what it&rsquo;s like to be loved?</p>
+  <p>Gosh, my empathy is going to kill me one day.</p>
+  <p>I can&rsquo;t even blame them for the awful things they do because I feel so bad for them and for the things they&rsquo;ve been through.</p>
+  <p>I guess one day I&rsquo;ll learn the hard way that I need to start putting myself first. To leave when things don&rsquo;t feel like they&rsquo;re meant to be. To not excuse poor behaviors just because i believed in their potential. To stop dating people that sell me empty words where no actions of proof are supported behind.</p>
+  <p>And hopefully, one day, someone will love me just the way I love others. I hope everyone gets exactly the love they put out into the world, in all of its aspects. (It could be both a compliment or a diss, my bad?)</p>
+  <p>And so my favourite painting now unashamedly represents me.</p>
+  <p>I keep drawing shadows of these people before they have to go to their battles. Holding on to the last bit I have of them, or of their memory that is permanently scarred in my mind. The shadows hold no details, just the silhouette and the outline of everything we shared and went through. Trying to grip on a good memory of them before they vanish and reappear as monstrous ghosts.</p>
+  <p>My love is no flame, easily shut by the wind or the sun that leaves at night to rest.</p>
+  <p>Maybe I&rsquo;m just a star collector and my heart is a full dark night sky. The stars are little stamps in my passport or charms on my bracelet. And as I collect the stars, I begin to see the world more clearly. As in the darkness, the tiniest bit of light shines more than in a daylight sky.</p>
+  <p>No one will get to ruin love for me. As i believe love can be contagious. So, as long as i believe in myself and my capability on loving, I am sure I will receive it someday.</p>
+  <p class="verse">Amen.</p>
+ `
+},
+{
+ roman:"XIII", name:"If i was a <em>motivation</em>", date:"June 7, 2026",
+ html:`
+  <p>So I&rsquo;ve been gone.</p>
+  <p>It&rsquo;s already hard writing on a QWERTY keyboard now that I&rsquo;m used to an AZERTY one.</p>
+  <p>You might wonder (or not), what has happened to this chick who used to complain all the time in her blog?</p>
+  <p>Well, she&rsquo;s actually gone.</p>
+  <p>I&rsquo;ve been having difficulty writing again as I&rsquo;ve become a new person. I can&rsquo;t even write a poem because I&rsquo;ve been actually&hellip; happy.</p>
+  <p>And I have been for a while. Paris did wonders to me. But it was also because of so many efforts I made. I initially stopped writing here because it became a turmoil of emotions and a way to express myself creatively. It was also my way to feel heard and seen. I know people have been checking my blog in the past, people that have long since gone from my life. I arrived at a point where I wondered if I really wanted to be transparent about how I feel. I decided I needed to revamp my life and disappear. And I did. And I&rsquo;m glad that I did.</p>
+  <p>I&rsquo;ve become so peaceful that I struggle to even read my old blogs.</p>
+  <p>I&rsquo;ve become so peaceful that I&rsquo;ve even stopped listening to music because I can&rsquo;t relate to any negative emotions anymore.</p>
+  <p>I&rsquo;ve been booked and busy ever since I moved to Paris. I also made it my mission to always stay busy, no matter what. To fill my life with experiences, hobbies, and people. And I successfully did.</p>
+  <p>I don&rsquo;t even have time to sit alone with my thoughts, and I&rsquo;m not sure if it&rsquo;s a good thing or a bad thing, but I know I&rsquo;m happy and that&rsquo;s all I care about.</p>
+  <p>The person I&rsquo;ve become is so much different than the person I was, even to the point that I wondered how I was going to feel a connection with someone new who hadn&rsquo;t witnessed that big part of me. Until I met someone, and I&rsquo;ve felt more seen and heard than I ever did in a long, long time.</p>
+  <p>It&rsquo;s weird, but the sense of growing up, of putting everything behind, of staying strong, of still staying loyal to who I was and to my values, there&rsquo;s something numbing about it. I don&rsquo;t know how to explain it. I just feel set free of all anxieties, all insecurities, all bad thoughts.</p>
+  <p>I learned the hard way that I was searching for the wrong type of love. I also knew that I loved myself, and I decided not to settle for less anymore.</p>
+  <p>And I learned during this whole journey, and after going on dates with lots of men, that I&rsquo;m quite frankly the star of the show. I&rsquo;m sorry, but it&rsquo;s true. I made every single date interesting. I was the one who defined how things were going to go. Every time I had a new date with someone, I knew it would go fine as long as I was myself because I&rsquo;m the interesting one.</p>
+  <p>And I actually learned a lot from dating apps. I had never tried them before. I was able to meet men of all ages, all jobs, and all looks, and it helped me define what I really wanted. It wasn&rsquo;t an easy journey, for sure, but one that I don&rsquo;t regret at all. So much so that I&rsquo;ve inspired people to download the apps.</p>
+  <p>And I believe it helped me find love again. True love. The kind I was always searching for. The kind I fought so hard to find, wrote millions of stanzas about, bled tears for, and broke my heart many times over just to find. The kind I always knew I deserved and knew I was meant to have.</p>
+  <p>And he&rsquo;s everything I want in a person.</p>
+  <p>And i love who&rsquo;ve i become. Can you believe i travelled to 4 countries already this year? I&rsquo;m also going to Croatia in summer with my boyfriend. Our first trip together, I&rsquo;m so excited!</p>
+  <p>Can you believe I started going to the gym??? ME??? I made it my motivation to grow a hot ass. Yes that&rsquo;s my motivation.</p>
+  <p>Can you believe i lightened my hair??? I&rsquo;m not a black cat anymore lol. Well a semi black cat. I actually made it one of my resolutions to be half of the sun and half of the moon as i start to realize that i have so much positivity to offer around. It felt life changing the minute i realized that i was actually dimming my own light too. That i didn&rsquo;t love myself enough to believe that i was all these sort of wonders. And i think this blog helped me a lot in realizing that.</p>
+  <p>I&rsquo;m very excited to the next chapter of my life.</p>
+  <p>Being a long-term girlfriend, going out with my friends, getting an upgrade at work, feeling more healthy overall, i want to enjoy it as long as i can.</p>
+  <p>And I may come back, and I may not. I think the blog served its course. I wanted to write a happy ending, one that i feel fits as a good ending chapter.</p>
+ `
+}
+];
+
+/* ---------- render ---------- */
+const toc = document.getElementById('toc');
+const indexView = document.getElementById('indexView');
+const reader = document.getElementById('reader');
+const articleEl = document.getElementById('article');
+const nextline = document.getElementById('nextline');
+const backBtn = document.getElementById('back');
+
+CHAPTERS.forEach((ch, i) => {
+  const li = document.createElement('li');
+  const btn = document.createElement('button');
+  btn.innerHTML = `<span class="num">${ch.roman}</span><span class="name">${ch.name}</span><span class="when">${ch.date}</span>`;
+  btn.addEventListener('click', () => openChapter(i));
+  li.appendChild(btn);
+  toc.appendChild(li);
+});
+
+function openChapter(i){
+  const ch = CHAPTERS[i];
+  articleEl.innerHTML = `
+    <article>
+      <header>
+        <div class="ch-num">Chapter ${ch.roman}</div>
+        <h2>${ch.name}</h2>
+        <div class="date">${ch.date}</div>
+        <svg class="rule" viewBox="0 0 150 20" fill="none" aria-hidden="true">
+          <path d="M2 10 H58" stroke="#C67C86" stroke-width="1.3"/>
+          <path d="M148 10 H92" stroke="#C67C86" stroke-width="1.3"/>
+          <g transform="translate(75,10)"><circle r="6" fill="#9E2B3A"/><circle r="3" fill="#C24B58"/></g>
+          <path d="M58 10 c-5 -6 -14 -6 -14 -6 c0 0 3 9 14 6z" fill="#6E7A52"/>
+          <path d="M92 10 c5 -6 14 -6 14 -6 c0 0 -3 9 -14 6z" fill="#6E7A52"/>
+        </svg>
+      </header>
+      <div class="prose">${ch.html}</div>
+      <div class="chapter-end"><span class="glyph">&#10087;</span></div>
+    </article>`;
+
+  // next-chapter link
+  if(i < CHAPTERS.length - 1){
+    const n = CHAPTERS[i+1];
+    nextline.innerHTML = `<button class="nextbtn" id="nextbtn"><span class="lbl">The next tale</span>${n.name} <span class="arw">&rarr;</span></button>`;
+    document.getElementById('nextbtn').addEventListener('click', () => openChapter(i+1));
+  } else {
+    nextline.innerHTML = `<button class="nextbtn" id="nextbtn"><span class="lbl">The end</span>Return to the garden of chapters <span class="arw">&#10052;</span></button>`;
+    document.getElementById('nextbtn').addEventListener('click', showIndex);
+  }
+
+  indexView.classList.add('hidden');
+  reader.classList.add('active');
+  window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+}
+
+function showIndex(){
+  reader.classList.remove('active');
+  indexView.classList.remove('hidden');
+  window.scrollTo({top:0});
+}
+
+backBtn.addEventListener('click', showIndex);
+</script>
+</body>
+</html>
