@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  repository: "ghcr.io/corentin-dupaigne/zeina/zeina"
+  tag: "prod"
+
+hostname: "girlfriend.corentindupaigne.com"
+
+gateway:
+  name: gateway
+  namespace: default
+
+servicePort: 80
+containerPort: 80
