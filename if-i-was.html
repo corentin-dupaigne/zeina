@@ -9,8 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --night:#241826;
-    --night-deep:#180f1e;
+    --night:#3a0f1a;
+    --night-deep:#24070f;
     --parchment:#FBF4F1;
     --parchment-edge:#F1E0D9;
     --ink:#3A2430;
@@ -29,7 +29,7 @@
   body{
     margin:0;
     background:
-      radial-gradient(120% 90% at 50% -10%, #3a2436 0%, var(--night) 42%, var(--night-deep) 100%);
+      radial-gradient(125% 90% at 50% -12%, #5a1626 0%, var(--night) 45%, var(--night-deep) 100%);
     color:var(--ink);
     font-family:"EB Garamond", Georgia, serif;
     min-height:100vh;
@@ -37,18 +37,19 @@
   }
 
   /* ---- twilight thicket climbing the far margins ---- */
+  /* rose bramble margins */
   .thicket{
     position:fixed;
     top:0;bottom:0;
-    width:150px;
+    width:164px;
     pointer-events:none;
     z-index:0;
-    opacity:.9;
+    opacity:1;
   }
   .thicket.left{left:0;}
-  .thicket.right{right:0; transform:scaleX(-1);}
+  .thicket.right{right:0;}
   .thicket svg{height:100%; width:100%;}
-  @media (max-width:1180px){ .thicket{ width:96px; opacity:.7; } }
+  @media (max-width:1180px){ .thicket{ width:104px; opacity:.9; } }
   @media (max-width:820px){ .thicket{ display:none; } }
 
   /* ---- the book panel ---- */
@@ -248,134 +249,155 @@
 <!-- ===== reusable rose sprites ===== -->
 <svg class="sprites" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
  <defs>
-  <path id="pO" d="M50 56 C30 56 24 30 50 12 C76 30 70 56 50 56 Z"/>
-  <path id="pM" d="M50 54 C36 54 31 34 50 20 C69 34 64 54 50 54 Z"/>
-  <path id="pI" d="M50 52 C40 52 37 40 50 32 C63 40 60 52 50 52 Z"/>
   <symbol id="rose" viewBox="0 0 100 100">
-    <g fill="#B23A47"><use href="#pO"/><use href="#pO" transform="rotate(72 50 50)"/><use href="#pO" transform="rotate(144 50 50)"/><use href="#pO" transform="rotate(216 50 50)"/><use href="#pO" transform="rotate(288 50 50)"/></g>
-    <g fill="#9E2B3A"><use href="#pM" transform="rotate(36 50 50)"/><use href="#pM" transform="rotate(108 50 50)"/><use href="#pM" transform="rotate(180 50 50)"/><use href="#pM" transform="rotate(252 50 50)"/><use href="#pM" transform="rotate(324 50 50)"/></g>
-    <g fill="#7c1f2c"><use href="#pI"/><use href="#pI" transform="rotate(120 50 50)"/><use href="#pI" transform="rotate(240 50 50)"/></g>
-    <path d="M50 50 C46 48 46 43 50 42 C55 41 57 47 53 50 C49 54 42 51 43 45" fill="none" stroke="#e0a4ac" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+    <path d="M50.0 58.0 C30.4 57.0 22.0 48.0 27.6 24.8 C34.6 10.1 43.8 8.0 50.0 8.0 C56.2 8.0 65.4 10.1 72.4 24.8 C78.0 48.0 69.6 57.0 50.0 58.0 Z" fill="#9E2B3A" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M42.4 52.5 C37.3 33.5 43.2 22.8 67.0 20.9 C83.2 23.0 88.0 31.2 89.9 37.0 C91.8 42.9 92.7 52.3 80.9 63.5 C60.6 76.0 49.4 70.8 42.4 52.5 Z" fill="#9E2B3A" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M45.3 43.5 C61.7 32.8 73.8 35.2 82.9 57.2 C85.9 73.2 79.7 80.4 74.7 84.0 C69.7 87.6 61.0 91.3 46.7 83.6 C28.5 68.1 30.0 55.9 45.3 43.5 Z" fill="#9E2B3A" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M54.7 43.5 C70.0 55.9 71.5 68.1 53.3 83.6 C39.0 91.3 30.3 87.6 25.3 84.0 C20.3 80.4 14.1 73.2 17.1 57.2 C26.2 35.2 38.3 32.8 54.7 43.5 Z" fill="#9E2B3A" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M57.6 52.5 C50.6 70.8 39.4 76.0 19.1 63.5 C7.3 52.3 8.2 42.9 10.1 37.0 C12.0 31.2 16.8 23.0 33.0 20.9 C56.8 22.8 62.7 33.5 57.6 52.5 Z" fill="#9E2B3A" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M45.3 56.5 C33.4 46.6 33.4 35.5 46.3 25.1 C57.0 19.8 63.7 22.9 67.6 25.7 C71.5 28.6 76.5 34.1 74.8 45.8 C69.0 61.3 58.3 64.7 45.3 56.5 Z" fill="#C24B58" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M42.4 47.5 C48.1 33.2 58.7 29.7 72.6 38.8 C80.8 47.3 80.0 54.7 78.5 59.3 C77.0 63.9 73.4 70.3 61.7 72.3 C45.1 71.5 38.6 62.5 42.4 47.5 Z" fill="#C24B58" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M50.0 42.0 C65.4 43.0 72.0 52.0 67.6 68.0 C62.1 78.5 54.8 80.0 50.0 80.0 C45.2 80.0 37.9 78.5 32.4 68.0 C28.0 52.0 34.6 43.0 50.0 42.0 Z" fill="#C24B58" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M57.6 47.5 C61.4 62.5 54.9 71.5 38.3 72.3 C26.6 70.3 23.0 63.9 21.5 59.3 C20.0 54.7 19.2 47.3 27.4 38.8 C41.3 29.7 51.9 33.2 57.6 47.5 Z" fill="#C24B58" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M54.7 56.5 C41.7 64.7 31.0 61.3 25.2 45.8 C23.5 34.1 28.5 28.6 32.4 25.7 C36.3 22.9 43.0 19.8 53.7 25.1 C66.6 35.5 66.6 46.6 54.7 56.5 Z" fill="#C24B58" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M48.3 57.8 C38.3 54.7 35.7 44.9 40.6 36.4 C45.7 30.6 50.7 30.7 54.0 31.4 C57.2 32.1 61.8 34.1 64.1 41.3 C65.1 51.2 58.8 59.0 48.3 57.8 Z" fill="#9E2B3A" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M42.0 50.8 C41.9 40.3 50.4 34.9 60.1 36.9 C67.1 39.9 68.6 44.7 68.9 48.0 C69.2 51.3 68.8 56.3 62.6 60.7 C53.6 64.7 44.1 61.2 42.0 50.8 Z" fill="#9E2B3A" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M46.7 42.7 C56.7 39.3 64.5 45.7 65.6 55.5 C64.9 63.1 60.7 66.0 57.7 67.4 C54.7 68.7 49.8 69.8 43.7 65.3 C37.1 57.9 37.6 47.9 46.7 42.7 Z" fill="#9E2B3A" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M55.9 44.6 C62.2 53.1 58.6 62.5 49.6 66.5 C42.1 68.2 38.1 65.2 35.9 62.7 C33.7 60.3 31.1 55.9 33.5 48.7 C38.5 40.2 48.2 37.5 55.9 44.6 Z" fill="#9E2B3A" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M56.9 54.0 C50.8 62.6 40.8 62.0 34.1 54.7 C30.2 48.1 31.9 43.4 33.5 40.5 C35.2 37.6 38.5 33.8 46.1 33.9 C55.8 36.0 61.3 44.4 56.9 54.0 Z" fill="#9E2B3A" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M46.0 56.9 C40.4 52.6 42.3 43.3 46.4 40.3 C50.5 38.2 53.6 39.4 55.5 40.5 C57.4 41.6 60.0 43.7 60.2 48.3 C59.7 53.3 52.6 59.6 46.0 56.9 Z" fill="#6f1a26" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M46.0 43.1 C52.6 40.4 59.7 46.7 60.2 51.7 C60.0 56.3 57.4 58.4 55.5 59.5 C53.6 60.6 50.5 61.8 46.4 59.7 C42.3 56.7 40.4 47.4 46.0 43.1 Z" fill="#6f1a26" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M58.0 50.0 C57.0 57.0 48.0 60.0 43.4 58.0 C39.5 55.5 39.0 52.2 39.0 50.0 C39.0 47.8 39.5 44.5 43.4 42.0 C48.0 40.0 57.0 43.0 58.0 50.0 Z" fill="#6f1a26" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M50 50 C47 49 47 45 50 44 C54 43 56 47 53 50 C50 53 44 52 44 46 C44 40 51 37 57 41" fill="none" stroke="#4a0f1a" stroke-width="1.5" stroke-linecap="round"/>
   </symbol>
   <symbol id="rose-soft" viewBox="0 0 100 100">
-    <g fill="#D98A93"><use href="#pO"/><use href="#pO" transform="rotate(72 50 50)"/><use href="#pO" transform="rotate(144 50 50)"/><use href="#pO" transform="rotate(216 50 50)"/><use href="#pO" transform="rotate(288 50 50)"/></g>
-    <g fill="#C67C86"><use href="#pM" transform="rotate(36 50 50)"/><use href="#pM" transform="rotate(108 50 50)"/><use href="#pM" transform="rotate(180 50 50)"/><use href="#pM" transform="rotate(252 50 50)"/><use href="#pM" transform="rotate(324 50 50)"/></g>
-    <g fill="#A85A66"><use href="#pI"/><use href="#pI" transform="rotate(120 50 50)"/><use href="#pI" transform="rotate(240 50 50)"/></g>
-    <path d="M50 50 C46 48 46 43 50 42 C55 41 57 47 53 50 C49 54 42 51 43 45" fill="none" stroke="#f5dde1" stroke-width="1.8" stroke-linecap="round" opacity=".9"/>
+    <path d="M50.0 58.0 C30.4 57.0 22.0 48.0 27.6 24.8 C34.6 10.1 43.8 8.0 50.0 8.0 C56.2 8.0 65.4 10.1 72.4 24.8 C78.0 48.0 69.6 57.0 50.0 58.0 Z" fill="#D98A93" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M42.4 52.5 C37.3 33.5 43.2 22.8 67.0 20.9 C83.2 23.0 88.0 31.2 89.9 37.0 C91.8 42.9 92.7 52.3 80.9 63.5 C60.6 76.0 49.4 70.8 42.4 52.5 Z" fill="#D98A93" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M45.3 43.5 C61.7 32.8 73.8 35.2 82.9 57.2 C85.9 73.2 79.7 80.4 74.7 84.0 C69.7 87.6 61.0 91.3 46.7 83.6 C28.5 68.1 30.0 55.9 45.3 43.5 Z" fill="#D98A93" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M54.7 43.5 C70.0 55.9 71.5 68.1 53.3 83.6 C39.0 91.3 30.3 87.6 25.3 84.0 C20.3 80.4 14.1 73.2 17.1 57.2 C26.2 35.2 38.3 32.8 54.7 43.5 Z" fill="#D98A93" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M57.6 52.5 C50.6 70.8 39.4 76.0 19.1 63.5 C7.3 52.3 8.2 42.9 10.1 37.0 C12.0 31.2 16.8 23.0 33.0 20.9 C56.8 22.8 62.7 33.5 57.6 52.5 Z" fill="#D98A93" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M45.3 56.5 C33.4 46.6 33.4 35.5 46.3 25.1 C57.0 19.8 63.7 22.9 67.6 25.7 C71.5 28.6 76.5 34.1 74.8 45.8 C69.0 61.3 58.3 64.7 45.3 56.5 Z" fill="#EEB4BC" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M42.4 47.5 C48.1 33.2 58.7 29.7 72.6 38.8 C80.8 47.3 80.0 54.7 78.5 59.3 C77.0 63.9 73.4 70.3 61.7 72.3 C45.1 71.5 38.6 62.5 42.4 47.5 Z" fill="#EEB4BC" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M50.0 42.0 C65.4 43.0 72.0 52.0 67.6 68.0 C62.1 78.5 54.8 80.0 50.0 80.0 C45.2 80.0 37.9 78.5 32.4 68.0 C28.0 52.0 34.6 43.0 50.0 42.0 Z" fill="#EEB4BC" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M57.6 47.5 C61.4 62.5 54.9 71.5 38.3 72.3 C26.6 70.3 23.0 63.9 21.5 59.3 C20.0 54.7 19.2 47.3 27.4 38.8 C41.3 29.7 51.9 33.2 57.6 47.5 Z" fill="#EEB4BC" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M54.7 56.5 C41.7 64.7 31.0 61.3 25.2 45.8 C23.5 34.1 28.5 28.6 32.4 25.7 C36.3 22.9 43.0 19.8 53.7 25.1 C66.6 35.5 66.6 46.6 54.7 56.5 Z" fill="#EEB4BC" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M48.3 57.8 C38.3 54.7 35.7 44.9 40.6 36.4 C45.7 30.6 50.7 30.7 54.0 31.4 C57.2 32.1 61.8 34.1 64.1 41.3 C65.1 51.2 58.8 59.0 48.3 57.8 Z" fill="#D98A93" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M42.0 50.8 C41.9 40.3 50.4 34.9 60.1 36.9 C67.1 39.9 68.6 44.7 68.9 48.0 C69.2 51.3 68.8 56.3 62.6 60.7 C53.6 64.7 44.1 61.2 42.0 50.8 Z" fill="#D98A93" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M46.7 42.7 C56.7 39.3 64.5 45.7 65.6 55.5 C64.9 63.1 60.7 66.0 57.7 67.4 C54.7 68.7 49.8 69.8 43.7 65.3 C37.1 57.9 37.6 47.9 46.7 42.7 Z" fill="#D98A93" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M55.9 44.6 C62.2 53.1 58.6 62.5 49.6 66.5 C42.1 68.2 38.1 65.2 35.9 62.7 C33.7 60.3 31.1 55.9 33.5 48.7 C38.5 40.2 48.2 37.5 55.9 44.6 Z" fill="#D98A93" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M56.9 54.0 C50.8 62.6 40.8 62.0 34.1 54.7 C30.2 48.1 31.9 43.4 33.5 40.5 C35.2 37.6 38.5 33.8 46.1 33.9 C55.8 36.0 61.3 44.4 56.9 54.0 Z" fill="#D98A93" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M46.0 56.9 C40.4 52.6 42.3 43.3 46.4 40.3 C50.5 38.2 53.6 39.4 55.5 40.5 C57.4 41.6 60.0 43.7 60.2 48.3 C59.7 53.3 52.6 59.6 46.0 56.9 Z" fill="#b56470" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M46.0 43.1 C52.6 40.4 59.7 46.7 60.2 51.7 C60.0 56.3 57.4 58.4 55.5 59.5 C53.6 60.6 50.5 61.8 46.4 59.7 C42.3 56.7 40.4 47.4 46.0 43.1 Z" fill="#b56470" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M58.0 50.0 C57.0 57.0 48.0 60.0 43.4 58.0 C39.5 55.5 39.0 52.2 39.0 50.0 C39.0 47.8 39.5 44.5 43.4 42.0 C48.0 40.0 57.0 43.0 58.0 50.0 Z" fill="#b56470" stroke="#4a0f1a" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M50 50 C47 49 47 45 50 44 C54 43 56 47 53 50 C50 53 44 52 44 46 C44 40 51 37 57 41" fill="none" stroke="#4a0f1a" stroke-width="1.5" stroke-linecap="round"/>
   </symbol>
   <symbol id="bud" viewBox="0 0 100 100">
-    <path d="M50 96 L50 58" stroke="#5E6B4A" stroke-width="4" fill="none"/>
-    <path d="M50 60 C40 58 34 50 33 42 C42 47 47 53 50 60 Z" fill="#6E7A52"/>
-    <path d="M50 60 C60 58 66 50 67 42 C58 47 53 53 50 60 Z" fill="#6E7A52"/>
-    <path d="M50 58 C42 62 34 54 34 42 C34 26 44 16 50 12 C56 16 66 26 66 42 C66 54 58 62 50 58 Z" fill="#5E6B4A"/>
-    <path d="M50 20 C64 30 62 52 50 58 C38 52 36 30 50 20 Z" fill="#9E2B3A"/>
-    <path d="M50 22 C58 32 57 50 50 57 C50 42 50 32 50 22 Z" fill="#B23A47"/>
+    <path d="M50 96 C50 84 50 72 50 60" fill="none" stroke="#5E6B4A" stroke-width="2"/>
+    <path d="M50 60 C34 52 34 28 50 16 C66 28 66 52 50 60 Z" fill="#9E2B3A" stroke="#4a0f1a" stroke-width="1.3" stroke-linejoin="round"/>
+    <path d="M50 18 C58 30 56 48 50 56 C50 44 50 30 50 18 Z" fill="#C24B58" stroke="#4a0f1a" stroke-width="1.3" stroke-linejoin="round"/>
+    <path d="M40 56 C44 64 56 64 60 56 C56 61 44 61 40 56 Z" fill="#5E6B4A" stroke="#4a0f1a" stroke-width="1.3" stroke-linejoin="round"/>
+    <path d="M50 60 C42 56 36 46 34 36 C40 44 46 52 50 60 Z" fill="#6E7A52" stroke="#4a0f1a" stroke-width="1.3" stroke-linejoin="round"/>
+    <path d="M50 60 C58 56 64 46 66 36 C60 44 54 52 50 60 Z" fill="#6E7A52" stroke="#4a0f1a" stroke-width="1.3" stroke-linejoin="round"/>
   </symbol>
   <symbol id="leaf" viewBox="0 0 100 100">
-    <path d="M50 92 C40 70 40 40 50 12 C60 40 60 70 50 92 Z" fill="#6E7A52"/>
-    <path d="M50 90 L50 16" stroke="#455036" stroke-width="1.6" fill="none"/>
-    <g stroke="#455036" stroke-width="1.1" fill="none" opacity=".8">
-      <path d="M50 30 C56 30 60 26 62 22"/><path d="M50 30 C44 30 40 26 38 22"/>
-      <path d="M50 45 C56 45 60 41 62 37"/><path d="M50 45 C44 45 40 41 38 37"/>
-      <path d="M50 60 C56 60 60 56 62 52"/><path d="M50 60 C44 60 40 56 38 52"/>
-    </g>
+    <path d="M50 88 C41 70 41 40 50 12 C59 40 59 70 50 88 Z" fill="#6E7A52" stroke="#4a0f1a" stroke-width="1.3" stroke-linejoin="round"/>
+    <path d="M50 84 L50 18" fill="none" stroke="#455036" stroke-width="1.1"/>
+    <path d="M50 34 C56 33 60 29 62 25" fill="none" stroke="#455036" stroke-width="1.1"/>
+    <path d="M50 34 C44 33 40 29 38 25" fill="none" stroke="#455036" stroke-width="1.1"/>
+    <path d="M50 50 C57 49 62 45 64 40" fill="none" stroke="#455036" stroke-width="1.1"/>
+    <path d="M50 50 C43 49 38 45 36 40" fill="none" stroke="#455036" stroke-width="1.1"/>
+    <path d="M50 66 C56 65 60 61 62 57" fill="none" stroke="#455036" stroke-width="1.1"/>
+    <path d="M50 66 C44 65 40 61 38 57" fill="none" stroke="#455036" stroke-width="1.1"/>
   </symbol>
  </defs>
 </svg>
 
 <!-- climbing thicket, left + mirrored right -->
 <div class="thicket left" aria-hidden="true">
-  <svg viewBox="0 0 150 900" preserveAspectRatio="xMinYMid slice" fill="none">
-    <path d="M30 900 C10 780 60 720 40 620 C20 520 70 460 44 360 C22 270 66 210 40 110 C24 50 60 20 52 -20"
-          stroke="#5E6B4A" stroke-width="6" stroke-linecap="round" fill="none"/>
-    <path d="M30 900 C50 800 6 740 34 650 C58 560 14 500 40 410 C60 330 18 270 44 180 C60 120 30 70 50 0"
-          stroke="#455036" stroke-width="3.5" stroke-linecap="round" fill="none" opacity=".8"/>
-    <g stroke="#455036" stroke-width="2.4" stroke-linecap="round">
-      <path d="M40 620 l16 -12"/><path d="M44 360 l16 -12"/><path d="M40 110 l16 -12"/>
-      <path d="M34 650 l-14 -10"/><path d="M40 410 l-14 -10"/><path d="M44 180 l-14 -10"/>
-    </g>
-    <use href="#leaf" x="-8" y="674" width="52" height="52" transform="rotate(-38 18 700)"/>
-    <use href="#leaf" x="55" y="445" width="50" height="50" transform="rotate(32 80 470)"/>
-    <use href="#leaf" x="-3" y="225" width="50" height="50" transform="rotate(-30 22 250)"/>
-    <use href="#leaf" x="59" y="537" width="46" height="46" transform="rotate(40 82 560)"/>
-    <use href="#leaf" x="-2" y="128" width="44" height="44" transform="rotate(-34 20 150)"/>
-    <use href="#bud" x="41" y="271" width="58" height="58" transform="rotate(18 70 300)"/>
-    <use href="#bud" x="3" y="793" width="54" height="54" transform="rotate(-14 30 820)"/>
-    <use href="#rose" x="17" y="97" width="86" height="86"/>
-    <use href="#rose-soft" x="8" y="398" width="64" height="64"/>
-    <use href="#rose" x="10" y="572" width="96" height="96"/>
-    <use href="#rose" x="15" y="793" width="74" height="74"/>
+  <svg viewBox="0 0 160 1000" preserveAspectRatio="xMidYMid slice" fill="none">
+    <path d="M40 1000 C10 900 70 840 44 740 C22 655 78 590 48 500 C22 420 74 360 44 270 C24 200 66 150 40 70 C34 40 44 20 40 0" fill="none" stroke="#3f4a30" stroke-width="7" stroke-linecap="round"/>
+    <path d="M40 1000 C10 900 70 840 44 740 C22 655 78 590 48 500 C22 420 74 360 44 270 C24 200 66 150 40 70 C34 40 44 20 40 0" fill="none" stroke="#5E6B4A" stroke-width="4.2" stroke-linecap="round"/>
+    <path d="M48 500 C30 486 20 500 12 476" fill="none" stroke="#5E6B4A" stroke-width="3" stroke-linecap="round"/><path d="M44 270 C64 260 76 270 88 250" fill="none" stroke="#5E6B4A" stroke-width="3" stroke-linecap="round"/><path d="M44 740 C66 732 76 746 88 730" fill="none" stroke="#5E6B4A" stroke-width="3" stroke-linecap="round"/><path d="M42 150 C60 140 70 150 82 132" fill="none" stroke="#5E6B4A" stroke-width="3" stroke-linecap="round"/>
+    <path d="M33.7 922.8 L41.6 923.5 L34.4 915.6 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M47.0 825.2 L39.0 824.2 L47.8 818.0 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M43.4 731.1 L51.3 729.7 L42.2 724.0 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M44.5 636.9 L36.6 635.4 L45.9 629.9 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M58.1 542.8 L66.1 542.1 L57.4 535.6 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M39.0 458.0 L31.0 458.2 L38.9 450.8 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M51.8 371.0 L59.8 372.0 L52.8 363.8 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M43.8 274.3 L36.3 276.8 L41.6 267.4 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M41.2 205.9 L49.2 206.8 L42.1 198.7 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M47.3 129.2 L39.3 129.2 L47.3 122.0 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M40.6 65.1 L48.5 64.2 L39.8 57.9 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M37.3 35.1 L29.4 34.2 L38.1 27.9 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M42.6 9.9 L50.6 9.3 L42.1 2.7 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/>
+    <use href="#leaf" x="-1" y="667" width="46" height="46" transform="rotate(-40 22 690)"/>
+    <use href="#leaf" x="62" y="584" width="44" height="44" transform="rotate(34 84 606)"/>
+    <use href="#bud" x="60" y="224" width="52" height="52" transform="rotate(60 86 250)"/>
+    <use href="#rose" x="10" y="104" width="92" height="92"/>
+    <use href="#leaf" x="-1" y="95" width="50" height="50" transform="rotate(-45 24 120)"/>
+    <use href="#leaf" x="59" y="157" width="46" height="46" transform="rotate(40 82 180)"/>
+    <use href="#bud" x="55" y="91" width="50" height="50" transform="rotate(25 80 116)"/>
+    <use href="#rose-soft" x="11" y="397" width="66" height="66" transform="rotate(10 44 430)"/>
+    <use href="#leaf" x="-4" y="430" width="44" height="44" transform="rotate(-30 18 452)"/>
+    <use href="#rose" x="10" y="652" width="96" height="96" transform="rotate(-6 58 700)"/>
+    <use href="#leaf" x="63" y="707" width="46" height="46" transform="rotate(55 86 730)"/>
+    <use href="#bud" x="6" y="616" width="48" height="48" transform="rotate(-20 30 640)"/>
+    <use href="#rose-soft" x="9" y="843" width="74" height="74" transform="rotate(8 46 880)"/>
+    <use href="#leaf" x="56" y="838" width="44" height="44" transform="rotate(40 78 860)"/>
   </svg>
-  </div>
-  <div class="thicket right" aria-hidden="true">
-  <svg viewBox="0 0 150 900" preserveAspectRatio="xMinYMid slice" fill="none">
-    <path d="M30 900 C10 780 60 720 40 620 C20 520 70 460 44 360 C22 270 66 210 40 110 C24 50 60 20 52 -20"
-          stroke="#5E6B4A" stroke-width="6" stroke-linecap="round" fill="none"/>
-    <path d="M30 900 C50 800 6 740 34 650 C58 560 14 500 40 410 C60 330 18 270 44 180 C60 120 30 70 50 0"
-          stroke="#455036" stroke-width="3.5" stroke-linecap="round" fill="none" opacity=".8"/>
-    <g stroke="#455036" stroke-width="2.4" stroke-linecap="round">
-      <path d="M40 620 l16 -12"/><path d="M44 360 l16 -12"/><path d="M40 110 l16 -12"/>
-      <path d="M34 650 l-14 -10"/><path d="M40 410 l-14 -10"/><path d="M44 180 l-14 -10"/>
-    </g>
-    <use href="#leaf" x="-5" y="675" width="50" height="50" transform="rotate(-34 20 700)"/>
-    <use href="#leaf" x="56" y="446" width="48" height="48" transform="rotate(34 80 470)"/>
-    <use href="#leaf" x="-1" y="207" width="46" height="46" transform="rotate(-30 22 230)"/>
-    <use href="#bud" x="45" y="573" width="54" height="54" transform="rotate(16 72 600)"/>
-    <use href="#rose" x="16" y="138" width="84" height="84"/>
-    <use href="#rose-soft" x="22" y="390" width="60" height="60"/>
-    <use href="#rose" x="11" y="615" width="90" height="90"/>
-    <use href="#rose-soft" x="15" y="275" width="50" height="50"/>
+</div>
+<div class="thicket right" aria-hidden="true">
+  <svg viewBox="0 0 160 1000" preserveAspectRatio="xMidYMid slice" fill="none">
+    <path d="M120 1000 C150 905 92 850 118 748 C142 662 88 600 116 505 C142 420 92 360 120 268 C138 198 96 150 120 66 C128 40 116 22 120 0" fill="none" stroke="#3f4a30" stroke-width="7" stroke-linecap="round"/>
+    <path d="M120 1000 C150 905 92 850 118 748 C142 662 88 600 116 505 C142 420 92 360 120 268 C138 198 96 150 120 66 C128 40 116 22 120 0" fill="none" stroke="#5E6B4A" stroke-width="4.2" stroke-linecap="round"/>
+    <path d="M116 505 C136 492 148 508 156 484" fill="none" stroke="#5E6B4A" stroke-width="3" stroke-linecap="round"/><path d="M120 268 C100 258 88 268 76 250" fill="none" stroke="#5E6B4A" stroke-width="3" stroke-linecap="round"/><path d="M118 748 C96 740 86 754 74 736" fill="none" stroke="#5E6B4A" stroke-width="3" stroke-linecap="round"/><path d="M120 150 C102 140 92 150 80 132" fill="none" stroke="#5E6B4A" stroke-width="3" stroke-linecap="round"/>
+    <path d="M129.7 926.8 L137.7 926.1 L129.1 919.6 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M111.6 833.6 L103.6 834.5 L110.8 826.4 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M121.7 739.5 L129.6 741.0 L123.1 732.4 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M116.8 645.5 L109.0 646.9 L115.5 638.4 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M109.6 549.8 L117.5 550.5 L110.1 542.6 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M122.1 460.5 L114.1 460.3 L122.3 453.3 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M116.0 370.5 L123.9 369.4 L115.1 363.3 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M117.4 271.4 L109.7 269.1 L119.5 264.5 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M124.3 203.9 L132.2 202.8 L123.3 196.7 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M111.0 127.2 L103.0 127.3 L110.9 120.0 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M122.6 62.6 L130.5 64.0 L123.9 55.5 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M120.6 35.7 L112.7 36.8 L119.6 28.5 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/><path d="M120.5 10.6 L128.5 11.0 L120.9 3.4 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.6" stroke-linejoin="round"/>
+    <use href="#leaf" x="116" y="678" width="44" height="44" transform="rotate(40 138 700)"/>
+    <use href="#leaf" x="57" y="589" width="42" height="42" transform="rotate(-34 78 610)"/>
+    <use href="#bud" x="49" y="225" width="50" height="50" transform="rotate(-60 74 250)"/>
+    <use href="#rose-soft" x="65" y="117" width="86" height="86" transform="rotate(-4 108 160)"/>
+    <use href="#leaf" x="116" y="108" width="48" height="48" transform="rotate(45 140 132)"/>
+    <use href="#leaf" x="58" y="163" width="44" height="44" transform="rotate(-40 80 185)"/>
+    <use href="#bud" x="58" y="96" width="48" height="48" transform="rotate(-25 82 120)"/>
+    <use href="#rose" x="85" y="407" width="66" height="66" transform="rotate(-8 118 440)"/>
+    <use href="#leaf" x="125" y="441" width="42" height="42" transform="rotate(30 146 462)"/>
+    <use href="#rose-soft" x="59" y="655" width="90" height="90" transform="rotate(6 104 700)"/>
+    <use href="#leaf" x="54" y="706" width="44" height="44" transform="rotate(-52 76 728)"/>
+    <use href="#bud" x="111" y="617" width="46" height="46" transform="rotate(20 134 640)"/>
+    <use href="#rose" x="80" y="839" width="72" height="72" transform="rotate(-8 116 875)"/>
+    <use href="#leaf" x="63" y="837" width="42" height="42" transform="rotate(-38 84 858)"/>
   </svg>
-  </div>
+</div>
 
 <main class="book">
     <div class="corner tl" aria-hidden="true">
-    <svg viewBox="0 0 104 104" fill="none">
-      <path d="M8 82 C4 44 44 6 84 10" stroke="#5E6B4A" stroke-width="3" fill="none"/>
-    <use href="#leaf" x="50" y="20" width="40" height="40" transform="rotate(40 70 40)"/>
-    <use href="#bud" x="61" y="49" width="34" height="34" transform="rotate(50 78 66)"/>
-    <use href="#rose" x="1" y="1" width="50" height="50"/>
+    <svg viewBox="0 0 120 120" fill="none">
+      <path d="M6 100 C10 52 52 10 112 8" fill="none" stroke="#5E6B4A" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M19.1 62.7 L24.2 65.8 L21.8 58.1 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><path d="M46.6 27.9 L43.2 22.9 L51.1 24.8 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><path d="M91.9 11.8 L92.9 17.7 L97.2 10.8 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><use href="#leaf" x="58" y="24" width="40" height="40" transform="rotate(42 78 44)"/><use href="#bud" x="39" y="63" width="34" height="34" transform="rotate(55 56 80)"/><use href="#rose" x="3" y="3" width="54" height="54"/>
     </svg>
   </div>
   <div class="corner tr" aria-hidden="true">
-    <svg viewBox="0 0 104 104" fill="none">
-      <path d="M8 82 C4 44 44 6 84 10" stroke="#5E6B4A" stroke-width="3" fill="none"/>
-    <use href="#leaf" x="50" y="24" width="36" height="36" transform="rotate(44 68 42)"/>
-    <use href="#rose" x="4" y="4" width="44" height="44"/>
+    <svg viewBox="0 0 120 120" fill="none">
+      <path d="M6 100 C10 52 52 10 112 8" fill="none" stroke="#5E6B4A" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M19.1 62.7 L24.2 65.8 L21.8 58.1 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><path d="M46.6 27.9 L43.2 22.9 L51.1 24.8 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><path d="M91.9 11.8 L92.9 17.7 L97.2 10.8 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><use href="#leaf" x="56" y="28" width="36" height="36" transform="rotate(45 74 46)"/><use href="#rose" x="7" y="7" width="46" height="46"/>
     </svg>
   </div>
   <div class="corner bl" aria-hidden="true">
-    <svg viewBox="0 0 104 104" fill="none">
-      <path d="M8 82 C4 44 44 6 84 10" stroke="#5E6B4A" stroke-width="3" fill="none"/>
-    <use href="#leaf" x="49" y="27" width="34" height="34" transform="rotate(38 66 44)"/>
-    <use href="#rose" x="7" y="7" width="42" height="42"/>
+    <svg viewBox="0 0 120 120" fill="none">
+      <path d="M6 100 C10 52 52 10 112 8" fill="none" stroke="#5E6B4A" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M19.1 62.7 L24.2 65.8 L21.8 58.1 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><path d="M46.6 27.9 L43.2 22.9 L51.1 24.8 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><path d="M91.9 11.8 L92.9 17.7 L97.2 10.8 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><use href="#leaf" x="53" y="31" width="34" height="34" transform="rotate(40 70 48)"/><use href="#rose" x="10" y="10" width="44" height="44"/>
     </svg>
   </div>
   <div class="corner br" aria-hidden="true">
-    <svg viewBox="0 0 104 104" fill="none">
-      <path d="M8 82 C4 44 44 6 84 10" stroke="#5E6B4A" stroke-width="3" fill="none"/>
-    <use href="#rose" x="5" y="5" width="46" height="46"/>
+    <svg viewBox="0 0 120 120" fill="none">
+      <path d="M6 100 C10 52 52 10 112 8" fill="none" stroke="#5E6B4A" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M19.1 62.7 L24.2 65.8 L21.8 58.1 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><path d="M46.6 27.9 L43.2 22.9 L51.1 24.8 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><path d="M91.9 11.8 L92.9 17.7 L97.2 10.8 Z" fill="#3f4a30" stroke="#4a0f1a" stroke-width="0.5" stroke-linejoin="round"/><use href="#rose" x="8" y="8" width="48" height="48"/>
     </svg>
   </div>
 
   <!-- ============ INDEX ============ -->
   <div class="index-view" id="indexView">
     <div class="frontispiece">
-      <svg class="crest" viewBox="0 0 72 72" fill="none" aria-hidden="true">
-<use href="#leaf" x="1" y="37" width="30" height="30" transform="rotate(-42 16 52)"/>
-<use href="#leaf" x="41" y="37" width="30" height="30" transform="rotate(42 56 52)"/>
-  <use href="#rose" x="16" y="8" width="40" height="40"/>
-</svg>
+      <svg class="crest" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <use href="#leaf" x="3" y="49" width="34" height="34" transform="rotate(-40 20 66)"/><use href="#leaf" x="59" y="49" width="34" height="34" transform="rotate(40 76 66)"/><use href="#rose" x="21" y="17" width="54" height="54"/>
+    </svg>
       <p class="kicker">A book of tales</p>
       <h1 class="title">If&nbsp;i&nbsp;<span class="amp">was</span></h1>
       <p class="subtitle">Existential-crisis journalling</p>
-      <svg class="flourish" viewBox="0 0 340 40" fill="none" aria-hidden="true">
-  <path d="M4 20 H150" stroke="#C67C86" stroke-width="1.4"/>
-  <path d="M336 20 H190" stroke="#C67C86" stroke-width="1.4"/>
-  <use href="#leaf" x="132" y="6" width="26" height="26" transform="rotate(-55 145 19)"/>
-  <use href="#leaf" x="182" y="6" width="26" height="26" transform="rotate(55 195 19)"/>
-  <use href="#rose" x="152" y="2" width="36" height="36"/>
-</svg>
+      <svg class="flourish" viewBox="0 0 340 60" fill="none" aria-hidden="true">
+      <path d="M6 30 H146" stroke="#C67C86" stroke-width="1.4"/>
+      <path d="M334 30 H194" stroke="#C67C86" stroke-width="1.4"/>
+      <use href="#leaf" x="115" y="17" width="26" height="26" transform="rotate(-58 128 30)"/><use href="#leaf" x="199" y="17" width="26" height="26" transform="rotate(58 212 30)"/><use href="#rose" x="147" y="7" width="46" height="46"/>
+    </svg>
       <p class="intro">A girl set out to learn who she might be if she weren&rsquo;t defined by her sadness &mdash; asking, one chapter at a time, <em>&ldquo;if i was a&hellip;&rdquo;</em> Turn the pages in order, and the tale finds its own ending.</p>
     </div>
 
@@ -1034,12 +1056,10 @@ function openChapter(i){
         <div class="ch-num">Chapter ${ch.roman}</div>
         <h2>${ch.name}</h2>
         <div class="date">${ch.date}</div>
-        <svg class="rule" viewBox="0 0 170 36" fill="none" aria-hidden="true">
-          <path d="M2 18 H64" stroke="#C67C86" stroke-width="1.3"/>
-          <path d="M168 18 H106" stroke="#C67C86" stroke-width="1.3"/>
-          <use href="#leaf" x="52" y="6" width="24" height="24" transform="rotate(-52 64 18)"/>
-          <use href="#leaf" x="94" y="6" width="24" height="24" transform="rotate(52 106 18)"/>
-          <use href="#rose" x="68" y="1" width="34" height="34"/>
+        <svg class="rule" viewBox="0 0 190 48" fill="none" aria-hidden="true">
+          <path d="M4 24 H74" stroke="#C67C86" stroke-width="1.3"/>
+          <path d="M186 24 H116" stroke="#C67C86" stroke-width="1.3"/>
+          <use href="#leaf" x="53" y="13" width="22" height="22" transform="rotate(-55 64 24)"/><use href="#leaf" x="115" y="13" width="22" height="22" transform="rotate(55 126 24)"/><use href="#rose" x="75" y="4" width="40" height="40"/>
         </svg>
       </header>
       <div class="prose">${ch.html}</div>

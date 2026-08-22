@@ -3,6 +3,8 @@ replicaCount: 1
 image:
   repository: "ghcr.io/corentin-dupaigne/zeina/zeina"
   tag: "prod"
+  # The prod tag is mutable, so always re-pull to pick up a rebuilt image
+  pullPolicy: "Always"
 
 hostname: "girlfriend.corentindupaigne.com"
 
